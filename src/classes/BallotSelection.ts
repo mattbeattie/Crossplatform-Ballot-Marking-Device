@@ -46,22 +46,10 @@ export class BallotSelection {
     return `${myCandArray.join(' and ')} ${partyString}`;
   }
 
+  // todo: the original implementation used the last element's candidateId
+  // that doesn't seem right to me, so we should confirm it's intentional and desired
   getCandidateId(): string {
-    let candidateId: string;
-    // todo: what does this forEach do? it looks like it just assigns... the last element
-    // (again, not sure what "element" is here) as the candidateId. why are the others ignored?
-    this.candidates.forEach((element) => {
-      candidateId = element.candidateId;
-    });
-    if (candidateId === undefined) {
-      candidateId = 'writeIn';
-    }
-    return candidateId;
-  }
-
-  // todo: this variable is public, why does it need a getter?
-  getCandidates(): Candidate[] {
-    return this.candidates;
+    return this.candidates[this.candidates.length - 1].candidateId;
   }
 
   // todo: instead of doing a double for loop here which modifies a scoped variable,

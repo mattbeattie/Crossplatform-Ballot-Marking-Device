@@ -25,7 +25,6 @@ export class HomePage implements OnInit {
     autoHeight: true,
   };
 
-  public xml = '';
   public xmlFile = '/assets/data/results-06037-2017-03-07.xml';
   public electionContestNames: string[];
   public currentContest: number;
@@ -50,26 +49,11 @@ export class HomePage implements OnInit {
   }
 
   initializeApp() {
-    // todo: the next two methods are "getters" but... don't seem to return anything?
-    // it's difficult to understand what's going on here
-    this.getDeviceLanguage();
+    if (window.Intl && typeof window.Intl === 'object') {
+      this.initTranslate(navigator.language);
+    }
     this.getEDFiles();
-    this.openXML();
-  }
-
-  // todo: the implementation of this function doesn't match its name
-  // furthermore, it's setting a scoped variable, which means it has a side effect.
-  // a better implmentation would be for it to return a new election, while the calling function
-  // can be responsible for setting it on the scope... but at that point,
-  // there's really no reason for a separate function for this anyway, right?
-  openXML() {
-    //alternate data files... need to be able to select which to use
     this.election = new Election(this.http, this.xmlFile, this);
-    //from the device... TO-DO...later
-    //this.election = new Election( this.http, '/assets/data/64K_1Contest.xml', this);
-    //                  this.election = new Election( this.http, '/assets/data/results-06037-2017-03-07.xml', this);
-    //this.election = new Election( this.http, '/assets/data/LA_County_Reference.xml', this);
-    ////this.election = new Election(this.http, '/assets/data/results-06037-2016-11-08.xml');
   }
 
   async openIonModal(data: any) {
@@ -141,26 +125,19 @@ export class HomePage implements OnInit {
     settingsModal.onDidDismiss();
   }
 
+  // todo: if passing a language other than english, it sets the default language to english,
+  // but uses the passed in language... does this make sense?
   initTranslate(language) {
     this.translate.setDefaultLang('en');
-    if (language) {
-      this.language = language;
-    } else {
-      this.language = 'en';
-    }
+    this.language = language || 'en';
     this.translate.use(this.language);
-  }
-
-  getDeviceLanguage() {
-    if (window.Intl && typeof window.Intl === 'object') {
-      this.initTranslate(navigator.language);
-    }
   }
 
   getTranslator() {
     return this.translate;
   }
 
+  // todo: this looks more like it's.... setting edFiles? what's actually going on here?
   getEDFiles() {
     try {
       const xmlFiles = '/assets/data/index.txt';
@@ -188,10 +165,10 @@ export class HomePage implements OnInit {
     }
   }
 
-  // todo: this isn't actually setting an EDF is it? it's opening some XML?
+  // todo: this isn't actually setting an EDF is it? it's setting the election?
   setEDF(xmlFile: string) {
     this.xmlFile = xmlFile;
-    this.openXML();
+    this.election = new Election(this.http, this.xmlFile, this);
   }
 
   itemClicked(event: Event, candidate: Candidate) {

@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+// todo: the regex in the HTML is invalid and will need to be fixed
+
 @Component({
   selector: 'app-writein-popup',
   templateUrl: './writein-popup.page.html',
   styleUrls: ['./writein-popup.page.scss'],
 })
 export class WriteinPopupPage {
-  public modal: ModalController;
   private writeinName: string;
 
-  constructor() {}
+  constructor(private modal: ModalController) {}
 
   async closeModal() {
     await this.modal.dismiss(this.writeinName);

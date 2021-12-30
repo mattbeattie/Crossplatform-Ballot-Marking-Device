@@ -56,8 +56,7 @@ export class Candidate {
   getCandidateInfo(aString: string) {
     // todo: what is aString? can we use a beter name?
     if (aString !== this.writeIn) {
-      //find candidate info using the candidateId - grab the party name, candidate name, etc.
-      this.getPersonId(this.candidateId);
+      this.personId = `per${this.candidateId.substr(3)}`;
       this.personName = jsonQuery([this.fullNameQuery, this.personId], { data: aString }).value;
       this.gender = jsonQuery([this.genderQuery, this.personId], { data: aString }).value;
       this.isIncumbent = jsonQuery([this.isIncumbentQuery, this.candidateId], { data: aString }).value;
@@ -67,10 +66,6 @@ export class Candidate {
     } else {
       this.personName = this.writeIn;
     }
-  }
-
-  getPersonId(candidateId: string) {
-    this.personId = `per${candidateId.substr(3)}`;
   }
 
   isWriteIn(): boolean {
