@@ -64,11 +64,14 @@ export class ElectionModelService {
       trim: true,
       tagNameProcessors: [convertXmlPropertNamesToCamelCase],
     });
-    return parser.parseString(electionXmlFileContents, (err, electionJsonFileContents) => {
-      if (err) {
-        throw new Error(`Unable to parse election XML file: ${err}`);
-      }
-      return electionJsonFileContents;
+    return new Promise((resolve, reject) => {
+      parser.parseString(electionXmlFileContents, (err, electionJsonFileContents) => {
+        if (err) {
+          reject(`Unable to parse election XML file: ${err}`);
+        } else {
+          resolve(electionJsonFileContents);
+        }
+      });
     });
   }
 
