@@ -4,6 +4,7 @@ import { ModalController, IonContent } from '@ionic/angular';
 import { Election } from '../../classes/Election';
 import { HomePage } from '../home/home.page';
 import { PresentOneContestPage } from '../present-one-contest/present-one-contest.page';
+import { CvrGeneratorService } from '../services/cvr-generator.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,7 +20,7 @@ export class VoteReviewPage {
   @Input() public home: HomePage;
   @Input() public scrollToContest: number;
 
-  constructor(public modalController: ModalController) {}
+  constructor(private readonly modalController: ModalController, private readonly cvrGeneratorService: CvrGeneratorService) {}
 
   ionViewDidEnter() {
     this.maybeScrollToContest();
@@ -43,7 +44,7 @@ export class VoteReviewPage {
 
   async closeModalCastBallot() {
     await this.modalController.dismiss();
-    this.election.createCVR();
+    this.cvrGeneratorService.createCVR(this.home.election);
   }
 
   async oneVoteReview(contestNum: number): Promise<void> {

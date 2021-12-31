@@ -1,6 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Parser } from 'xml2js';
 import * as jsonQuery from 'json-query';
 
 import { Contest } from '../classes/Contest';
@@ -20,42 +19,7 @@ export class Election {
   private parent: HomePage;
   private contestIndex = 0;
 
-  constructor(private readonly http: HttpClient, aString: string, parent: HomePage) {
-    this.parent = parent;
-    if (null != aString) {
-      // todo: what is aString? can we use a better variable name here?
-      this.edfFile = aString;
-      try {
-        let xmlData;
-        const myParser = new Parser({ attrkey: 'attributes', charkey: 'characters', mergeAttrs: true });
-
-        this.http
-          .get(this.edfFile, {
-            headers: new HttpHeaders()
-              .set('Content-Type', 'text/xml')
-              .append('Access-Control-Allow-Methods', 'GET')
-              .append('Access-Control-Allow-Origin', '*')
-              .append(
-                'Access-Control-Allow-Headers',
-                'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'
-              ),
-            responseType: 'text',
-          })
-          .subscribe((data) => {
-            xmlData = data.toString();
-            myParser.parseString(xmlData, (err, jsonData) => {
-              this.jsonObj = jsonData;
-              this.setContests();
-              this.getContestNames();
-              this.ready = true;
-            });
-          });
-      } catch (e) {
-        // todo: under what circumstances would this fail? why are we ignoring any failures that would happen here?
-        console.log('Error:', e);
-      }
-    }
-  }
+  constructor(private readonly http: HttpClient) {}
 
   getParent(): HomePage {
     return this.parent;
@@ -100,45 +64,6 @@ export class Election {
     // todo: why are we returning this scoped variable? it's not actually being assigned in the calling method,
     // and there's really no reason to do so anyway because it already exists on the scope
     return this.contestNames;
-  }
-
-  // todo: constructing a JSON string like this is brittle, and difficult to extend if you need to make changes or additions to it.
-  // further, it's not really possible to see what the shape of the JSON looks like, which prevents us from knowing whether it
-  // conforms to any specification unless you run the code and manually confirm.
-  // a better implementation would:
-  // 1. include an interface for what this JSON object should look like,
-  // 2. create a JSON object which conforms to that interface and has all the values necessary
-  // 3. use JSON.stringify(cvr) to convert the object to JSON
-  createCVR() {
-    let output = '';
-    output += '{ "election" : "big important election title here", "contests": [';
-    this.contests.forEach((element, idx) => {
-      output += '{"contest":"' + element.contestName + '",';
-      output += '"contestId":"' + element.contestId + '",';
-      output += '"contestants": [';
-      const emptyWriteIns = this.getEmptyWriteIns(element.ballotSelections);
-      element.ballotSelections.forEach((ballotselection, idx2) => {
-        const candidateName = ballotselection.getCandidatesString().trim();
-
-        if (candidateName !== undefined && candidateName !== 'undefined' && !candidateName.startsWith('Touch here')) {
-          this.candidateNames.push(candidateName);
-          output += '{"name":"' + candidateName + '",';
-          output += '"candidateID":"' + ballotselection.getCandidateId() + '",';
-          output += '"selected":"' + ballotselection.selected + '"}';
-          if (idx2 < element.ballotSelections.length - 1 - emptyWriteIns) {
-            output += ',';
-          }
-        }
-      });
-      output += ']}';
-      if (idx < this.contests.length - 1) {
-        output += ',';
-      } else {
-        output += ']';
-      }
-    });
-    output += '}';
-    console.log(output);
   }
 
   getContestByIndex(index: number): Contest {

@@ -53,21 +53,6 @@ export class Contest {
         this.setBallotSelections(aString);
         this.setVotesAllowed(aString);
         this.setContestId(aString);
-        // todo: instead of reaching up to the parent's parent for the translation method, why not use some global service instead?
-        // this.home
-        //   .getTranslator()
-        //   .get('YOU_CAN_CHOOSE')
-        //   .subscribe((res: string) => {
-        //     this.statusMessage1 = res;
-        //   });
-
-        // this.statusMessage2 = '' + (this.votesAllowed - this.currentlySelected);
-        // this.home
-        //   .getTranslator()
-        //   .get('MORE')
-        //   .subscribe((res: string) => {
-        //     this.statusMessage3 = res;
-        //   });
       } catch (e) {
         // todo: under what circumstances would this fail? why are we ignoring any failures that would happen here?
         console.log('Error:', e);

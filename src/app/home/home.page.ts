@@ -81,7 +81,6 @@ export class HomePage implements OnInit {
   async openVoteReviewModal(): Promise<void> {
     const componentProps = {
       scrollToContest: 0,
-      home: this,
       election: this.election,
       title: 'Vote Review',
       body: 'election review goes here',
@@ -93,7 +92,6 @@ export class HomePage implements OnInit {
   async voteReviewSpecificContest(contestNumber: number): Promise<void> {
     const componentProps = {
       scrollToContest: contestNumber,
-      home: this,
       election: this.election,
       title: 'Vote Review',
       body: 'election review goes here',
