@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { WriteinPopupPage } from './writein-popup.page';
+import { WriteinModalPage } from './writein-modal.page';
 
-describe('WriteinPopupPage', () => {
-  let component: WriteinPopupPage;
-  let fixture: ComponentFixture<WriteinPopupPage>;
+describe('WriteinModalPage', () => {
+  let component: WriteinModalPage;
+  let fixture: ComponentFixture<WriteinModalPage>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [WriteinPopupPage],
+        declarations: [WriteinModalPage],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(WriteinPopupPage);
+      fixture = TestBed.createComponent(WriteinModalPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })

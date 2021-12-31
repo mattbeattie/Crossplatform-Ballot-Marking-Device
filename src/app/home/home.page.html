@@ -1,7 +1,7 @@
-<ion-header *ngIf="election.ready">
+<ion-header *ngIf="electionIsLoaded">
   <ion-toolbar>
     <div class="center-button">
-      <ion-button outline (click)="settings($event)" translate> <ion-icon name="cog-outline"></ion-icon>SETTINGS</ion-button>
+      <ion-button outline (click)="openSettingsModal($event)" translate> <ion-icon name="cog-outline"></ion-icon>SETTINGS</ion-button>
       <ion-button outline (click)="help($event)" translate>
         <ion-icon name="help-outline"></ion-icon>
         HELP
@@ -12,25 +12,25 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="!election.ready">
+  <div *ngIf="!electionIsLoaded">
     <ion-spinner name="bubbles"></ion-spinner>
     <ion-label>Loading...</ion-label>
   </div>
 
-  <div *ngIf="election.ready">
+  <div *ngIf="electionIsLoaded">
     <ion-slides #mySlider [options]="sliderConfig">
-      <ion-slide *ngFor="let item of election.contests">
+      <ion-slide *ngFor="let contest of electionReport.election.contestCollection.contest">
         <br />
         <br />
         <div>
-          <ion-label>{{item.contestName}}</ion-label>
+          <ion-label>{{contest.contestName}}</ion-label>
           <br />
           <ion-label float="left" slot="start" translate> VOTE_FOR</ion-label>
-          <ion-label>{{item.getVotesAllowed()}} </ion-label>
+          <!-- <ion-label>{{contest.getVotesAllowed()}} </ion-label> -->
           <br />
-          <ion-label float="right" slot="end">{{item.statusMessage1}}</ion-label>
-          <ion-label color="danger" slot="end">{{item.statusMessage2}}</ion-label>
-          <ion-label slot="end">{{item.statusMessage3}}</ion-label>
+          <ion-label float="right" slot="end">{{contest.statusMessage1}}</ion-label>
+          <ion-label color="danger" slot="end">{{contest.statusMessage2}}</ion-label>
+          <ion-label slot="end">{{contest.statusMessage3}}</ion-label>
           <br />
           <br />
           <div class="center-button">
@@ -43,10 +43,10 @@
             </ion-item>
           </div>
           <ion-list no-line>
-            <div *ngFor="let ballotSelection of item.ballotSelections">
+            <div *ngFor="let ballotSelection of contest.ballotSelections">
               <div *ngFor="let candidateName of ballotSelection.candidates">
                 <ion-row no-line>
-                  <ion-item text-wrap no-line item-start (click)="itemClicked($event, candidateName)">
+                  <ion-item text-wrap no-line item-start (click)="maybeOpenWriteInModal($event, candidateName)">
                     <ion-checkbox [(ngModel)]="ballotSelection.selected" (ionChange)="item.ionChangeUpdateCheckbox($event)"></ion-checkbox>
                     <ion-label no-line>{{candidateName.personName}} {{candidateName.partyAbbreviation}}</ion-label>
                   </ion-item>
@@ -75,7 +75,7 @@
               <ion-icon slot="start" name="arrow-undo-outline"></ion-icon>
             </ion-button>
 
-            <ion-label style="padding: 20px">{{currentContest}}/{{election.contests.length}}</ion-label>
+            <ion-label style="padding: 20px">{{currentContest}}/{{electionReport.election.contestCollection.contest.length}}</ion-label>
             <ion-button slot="end" outline (click)="slideNext()" translate>
               NEXT
               <ion-icon slot="end" name="arrow-redo-outline"></ion-icon>

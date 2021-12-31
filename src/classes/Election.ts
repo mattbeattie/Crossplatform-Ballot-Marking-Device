@@ -27,7 +27,7 @@ export class Election {
       this.edfFile = aString;
       try {
         let xmlData;
-        const myParser = new Parser({ attrkey: '@', charkey: '#', mergeAttrs: true });
+        const myParser = new Parser({ attrkey: 'attributes', charkey: 'characters', mergeAttrs: true });
 
         this.http
           .get(this.edfFile, {

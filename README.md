@@ -71,3 +71,9 @@ To run integration tests manually, execute the following:
 ```bash
 npm run e2e
 ```
+
+## Todo
+
+- Set node / npm version in package.json
+- Git ignore build directory
+- Figure out how to do the build?

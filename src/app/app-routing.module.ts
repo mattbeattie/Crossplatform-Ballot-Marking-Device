@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'writein-popup',
-    loadChildren: () => import('./writein-popup/writein-popup.module').then((m) => m.WriteinPopupPageModule),
+    loadChildren: () => import('./writein-modal/writein-modal.module').then((m) => m.WriteinModalPageModule),
   },
 ];
 

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { WriteinPopupPage } from './writein-popup.page';
+import { WriteinModalPage } from './writein-modal.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: WriteinPopupPage,
+    component: WriteinModalPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class WriteinPopupPageRoutingModule {}
+export class WriteinModalPageRoutingModule {}
