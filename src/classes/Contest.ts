@@ -54,20 +54,20 @@ export class Contest {
         this.setVotesAllowed(aString);
         this.setContestId(aString);
         // todo: instead of reaching up to the parent's parent for the translation method, why not use some global service instead?
-        this.home
-          .getTranslator()
-          .get('YOU_CAN_CHOOSE')
-          .subscribe((res: string) => {
-            this.statusMessage1 = res;
-          });
+        // this.home
+        //   .getTranslator()
+        //   .get('YOU_CAN_CHOOSE')
+        //   .subscribe((res: string) => {
+        //     this.statusMessage1 = res;
+        //   });
 
-        this.statusMessage2 = '' + (this.votesAllowed - this.currentlySelected);
-        this.home
-          .getTranslator()
-          .get('MORE')
-          .subscribe((res: string) => {
-            this.statusMessage3 = res;
-          });
+        // this.statusMessage2 = '' + (this.votesAllowed - this.currentlySelected);
+        // this.home
+        //   .getTranslator()
+        //   .get('MORE')
+        //   .subscribe((res: string) => {
+        //     this.statusMessage3 = res;
+        //   });
       } catch (e) {
         // todo: under what circumstances would this fail? why are we ignoring any failures that would happen here?
         console.log('Error:', e);
@@ -155,33 +155,33 @@ export class Contest {
       this.statusMessage2 = '';
       this.statusMessage3 = '';
     } else if (this.votesAllowed > this.currentlySelected) {
-      this.home
-        .getTranslator()
-        .get('YOU_CAN_CHOOSE')
-        .subscribe((res: string) => {
-          this.statusMessage1 = res;
-        });
-      this.statusMessage2 = '' + (this.votesAllowed - this.currentlySelected);
-      this.home
-        .getTranslator()
-        .get('MORE')
-        .subscribe((res: string) => {
-          this.statusMessage3 = res;
-        });
-    } else {
-      this.home
-        .getTranslator()
-        .get('SELECTED_TOO_MANY')
-        .subscribe((res: string) => {
-          this.statusMessage1 = res;
-        });
+      //   this.home
+      //     .getTranslator()
+      //     .get('YOU_CAN_CHOOSE')
+      //     .subscribe((res: string) => {
+      //       this.statusMessage1 = res;
+      //     });
+      //   this.statusMessage2 = '' + (this.votesAllowed - this.currentlySelected);
+      //   this.home
+      //     .getTranslator()
+      //     .get('MORE')
+      //     .subscribe((res: string) => {
+      //       this.statusMessage3 = res;
+      //     });
+      // } else {
+      //   this.home
+      //     .getTranslator()
+      //     .get('SELECTED_TOO_MANY')
+      //     .subscribe((res: string) => {
+      //       this.statusMessage1 = res;
+      //     });
 
-      this.home
-        .getTranslator()
-        .get('TOO_MANY_TITLE')
-        .subscribe((res: string) => {
-          this.popupTitle = res;
-        });
+      //   this.home
+      //     .getTranslator()
+      //     .get('TOO_MANY_TITLE')
+      //     .subscribe((res: string) => {
+      //       this.popupTitle = res;
+      //     });
       const popupContent = { title: this.popupTitle, body: this.statusMessage1 };
       cbox.currentTarget.checked = false;
       this.home.openIonModal(popupContent);

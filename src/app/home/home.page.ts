@@ -1,23 +1,17 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ModalController } from '@ionic/angular';
 import { IonSlides } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
-import { Parser } from 'xml2js';
 
 import { ModalPopupPage } from '../modal-popup/modal-popup.page';
 import { VoteReviewPage } from '../vote-review/vote-review.page';
 import { SettingsPage } from '../settings/settings.page';
 import { WriteinModalPage } from '../writein-modal/writein-modal.page';
-import { ElectionModelService } from '../services/election-model.service';
-import { ElectionReport } from '../services/election-model.model';
+
+import { ElectionModelService, Election } from '../services/election-model.service';
 
 const DEFAULT_ELECTION_FILE = `/assets/data/64K_1Contest.xml`;
-
-function camelCase(name: string) {
-  return `${name[0].toLowerCase()}${name.slice(1)}`;
-}
 
 @Component({
   selector: 'app-home',
@@ -33,22 +27,21 @@ export class HomePage implements OnInit {
   };
 
   // todo: better type once you have it, also - private? not sure
-  public electionReport: ElectionReport;
-  public electionIsLoaded: boolean;
+  election: Election;
+  electionIsLoaded: boolean;
+  remainingVotes: number;
 
   // legacy properties below
-  public currentContest: number = 1;
+  public currentContest = 1;
   public title: string;
   public titleTwo: string;
   public description: string;
   public name: string;
-  public language: string;
 
   constructor(
     private readonly modalController: ModalController,
-    private readonly electionModelService: ElectionModelService,
-    private readonly httpClient: HttpClient,
-    private translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly electionModelService: ElectionModelService
   ) {
     SplashScreen.show({
       showDuration: 2000,
@@ -57,45 +50,23 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadElection(DEFAULT_ELECTION_FILE);
-    this.maybeInitTranslate(navigator.language);
+    if (window.Intl && typeof window.Intl === 'object') {
+      this.translate.setDefaultLang('en');
+      this.translate.use(navigator.language);
+    }
+
+    this.electionModelService.getElection(DEFAULT_ELECTION_FILE).then((election) => {
+      this.election = election;
+      this.electionIsLoaded = true;
+    });
   }
 
-  /**
-   * Loads the specified (or default) election file, builds the election model, and sets it on the scope
-   *
-   * @param electionFile
-   */
-  loadElection(electionFile: string) {
-    this.httpClient
-      .get(electionFile, { responseType: 'text' })
-      .toPromise()
-      .then((xmlElection) => {
-        const parser = new Parser({
-          attrkey: 'attributes',
-          charkey: 'characters',
-          explicitArray: false,
-          normalize: true,
-          trim: true,
-          tagNameProcessors: [camelCase],
-        });
-        parser.parseString(xmlElection, (err, electionResponse) => {
-          if (err) {
-            throw new Error(`Unable to parse election XML file: ${err}`);
-          }
-          this.electionReport = this.electionModelService.validateElectionModel(electionResponse);
-          console.log('🚀 ~ file: home.page.ts ~ line 86 ~ HomePage ~ parser.parseString ~ this.electionReport', this.electionReport);
-          this.electionIsLoaded = true;
-        });
-      })
-      // todo: figure out what to do if an error happens
-      .catch((err) => console.log('err', err));
-  }
+  // SLIDE TRANSITIONS - are these between... contests?
 
   slideNext() {
     this.slides.slideNext();
     this.currentContest++;
-    const contestCount = this.electionReport.election.contestCollection.contest.length;
+    const contestCount = this.election.contests.length;
     this.currentContest = this.currentContest >= contestCount ? contestCount : this.currentContest;
   }
 
@@ -105,27 +76,13 @@ export class HomePage implements OnInit {
     this.currentContest = this.currentContest <= 0 ? 1 : this.currentContest;
   }
 
-  // todo: if passing a language other than english, it sets the default language to english,
-  // but uses the passed in language... does this make sense?
-  maybeInitTranslate(language) {
-    if (window.Intl && typeof window.Intl === 'object') {
-      this.translate.setDefaultLang('en');
-      this.language = language || 'en';
-      this.translate.use(this.language);
-    }
-  }
+  // MODAL LAUNCHERS
 
-  getTranslator() {
-    return this.translate;
-  }
-
-  // MODEL LAUNCHERS
-
-  async voteReview(): Promise<void> {
+  async openVoteReviewModal(): Promise<void> {
     const componentProps = {
       scrollToContest: 0,
       home: this,
-      election: this.electionReport,
+      election: this.election,
       title: 'Vote Review',
       body: 'election review goes here',
     };
@@ -137,7 +94,7 @@ export class HomePage implements OnInit {
     const componentProps = {
       scrollToContest: contestNumber,
       home: this,
-      election: this.electionReport.election,
+      election: this.election,
       title: 'Vote Review',
       body: 'election review goes here',
     };
@@ -172,6 +129,7 @@ export class HomePage implements OnInit {
     }
   }
 
+  // todo: what is this?
   async openIonModal(data: any): Promise<void> {
     const componentProps = {
       title: data.title,
