@@ -37,9 +37,7 @@ todo: need to update this once I get around to cleaning up the modals
 
 ## Running the Application
 
-If you don't already have node and installed on your computer, install it using nvm:
-
-https://github.com/nvm-sh/nvm#installing-and-updating
+Ensure you're using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to handle your node versions. If you don't already have it set up on your machine, use nvm's instructions to download and install it.
 
 This application uses node 16 / npm 7, which is the current active LTS version. To ensure you're on the same version, execute the following:
 
@@ -204,9 +202,10 @@ npm run e2e
 
 ## Todo
 
-- Git ignore build directory
-- Do I need to do anything to handle sequence?
-- Figure out how to do the build?
-- Figure out what needs to be displayed for ballot markup option
+- Set / manage user state
 - Clean up all modals
-- User state
+- CVR generation
+- Remove legacy classes
+- Figure out what I need to do to properly handle sequences
+- Figure out how to do the native builds
+- Figure out what needs to be displayed for ballot markup option
