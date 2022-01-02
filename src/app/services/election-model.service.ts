@@ -12,19 +12,30 @@ export interface Election {
 }
 
 interface Contest {
+  id: string;
   name: string;
   type: ContestType;
   allowedVotes?: number;
-  ballotSelections: BallotSelection[];
+  ballotSelections: (CandidateBallotSelection | BallotMeasureBallotSelection)[];
 }
 
-interface BallotSelection {
+interface CandidateBallotSelection {
   candidates: Candidate[];
 }
 
 interface Candidate {
+  id: string;
   name: string;
   partyAbbreviation: string;
+}
+
+interface BallotMeasureBallotSelection {
+  ballotMeasures: BallotMeasure[];
+}
+
+interface BallotMeasure {
+  id: string;
+  sequenceOrder: number;
 }
 
 @Injectable({
@@ -149,6 +160,7 @@ export class ElectionModelService {
   private getContests(electionReport: any): Contest[] {
     return electionReport.election[0].contestCollection[0].contest.map((contestResponse: any) => {
       const contest: Contest = {
+        id: contestResponse.attributes.objectId,
         name: contestResponse.name[0],
         type: contestResponse.attributes['xsi:type'],
         ballotSelections: [],
@@ -158,7 +170,7 @@ export class ElectionModelService {
         contest.allowedVotes = contestResponse.votesAllowed[0];
         contest.ballotSelections = this.getCandidateBallotSelections(electionReport, contestResponse);
       } else if (contest.type === ContestType.ballotMeasureContest) {
-        // todo: how are ballot selections handled?
+        contest.ballotSelections = this.getBallotMeasureBallotSelections(electionReport, contestResponse);
       } else {
         throw new Error(`Found unexpected contest type: ${contest.type}`);
       }
@@ -174,18 +186,35 @@ export class ElectionModelService {
    * @param contestResponse
    * @returns
    */
-  private getCandidateBallotSelections(electionReport: any, contestResponse: any): BallotSelection[] {
+  private getCandidateBallotSelections(electionReport: any, contestResponse: any): CandidateBallotSelection[] {
     return contestResponse.ballotSelection.map((ballotSelectionResponse: any) => {
       const candidates: Candidate[] = ballotSelectionResponse.candidateIds.map((candidateId: string) => {
         const candidateInfo = this.getCandidateInfoByCandidateId(electionReport, candidateId);
         const name = candidateInfo.ballotName[0].text[0].characters;
         const partyAbbreviation = this.getPartyAbbreviationByPartyId(electionReport, candidateInfo.partyId[0]);
         return {
+          id: candidateId,
           name,
           partyAbbreviation,
         };
       });
       return { candidates };
+    });
+  }
+
+  /**
+   * Gets the ballot selections for ballot measure type contests
+   *
+   * @param electionReport
+   * @param contestResponse
+   * @returns
+   */
+  private getBallotMeasureBallotSelections(electionReport: any, contestResponse: any): BallotMeasureBallotSelection[] {
+    return contestResponse.ballotSelection.map((ballotSelectionResponse: any) => {
+      const ballotMeasureId = ballotSelectionResponse.attributes.objectId;
+      console.log('🚀 ~ file: election-model.service.ts ~ line 215 ~ ElectionModelService ~ ballotMeasureId', ballotMeasureId);
+      // todo: determine how to get some text-based information given the ballot measure ID
+      // initial inspection of the bmsXXXXX IDs in the election definition file didn't match any text describing the measureß
     });
   }
 
