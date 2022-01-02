@@ -209,3 +209,4 @@ npm run e2e
 - Figure out what I need to do to properly handle sequences
 - Figure out how to do the native builds
 - Figure out what needs to be displayed for ballot markup option
+- Update compromised packages per GitHub's recommendation
