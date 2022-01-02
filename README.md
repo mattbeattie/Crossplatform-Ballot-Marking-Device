@@ -1,6 +1,8 @@
 # MVP-App-TestHarness
 
 - [Application Architecture](#application-architecture)
+- [Running the Application](#running-the-application)
+- [Building Native Binaries](#building-native-binaries)
 - [Development Workflow](#development-workflow)
   - [What to do when your PR shows a failing status check](#what-to-do-when-your-pr-shows-a-failing-status-check)
 - [Standardization and Quality Checks](#standardization-and-quality-checks)
@@ -33,7 +35,27 @@ The modals are as follows:
 todo: need to update this once I get around to cleaning up the modals
 ```
 
-## Building native binaries
+## Running the Application
+
+If you don't already have node and installed on your computer, install it using nvm:
+
+https://github.com/nvm-sh/nvm#installing-and-updating
+
+This application uses node 16 / npm 7, which is the current active LTS version. To ensure you're on the same version, execute the following:
+
+```bash
+nvm use
+```
+
+To run the application, simply execute the following:
+
+```bash
+npm start
+```
+
+And navigate to [http://localhost:4200/home](http://localhost:4200/home) in your browser.
+
+## Building Native Binaries
 
 ```
 todo: need to determine the steps and write them here
@@ -182,7 +204,6 @@ npm run e2e
 
 ## Todo
 
-- Set node / npm version in package.json
 - Git ignore build directory
 - Do I need to do anything to handle sequence?
 - Figure out how to do the build?
