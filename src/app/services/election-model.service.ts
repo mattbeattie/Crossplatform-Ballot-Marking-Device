@@ -99,6 +99,10 @@ export class ElectionModelService {
    */
   private constructElectionModel(electionJsonFileContents: any): Election {
     const electionReport = electionJsonFileContents.electionReport;
+    console.log(
+      '🚀 ~ file: election-model.service.ts ~ line 102 ~ ElectionModelService ~ constructElectionModel ~ electionReport',
+      electionReport
+    );
     if (electionReport.election.length > 1) {
       throw new Error(`Found ${electionJsonFileContents.election.length} elections, expected no more than 1`);
     }
@@ -145,7 +149,7 @@ export class ElectionModelService {
   private getContests(electionReport: any): Contest[] {
     return electionReport.election[0].contestCollection[0].contest.map((contestResponse: any) => {
       const contest: Contest = {
-        name: contestResponse.attributes.objectId,
+        name: contestResponse.name[0],
         type: contestResponse.attributes['xsi:type'],
         ballotSelections: [],
       };
