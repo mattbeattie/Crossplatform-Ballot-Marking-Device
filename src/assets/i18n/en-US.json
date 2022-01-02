@@ -12,5 +12,6 @@
   "VOTE_FOR": "Vote for ",
   "WRITEIN_POPUP_BODY": "Please type in a write-in candidate's name",
   "WRITEIN_TITLE": "Enter a Write-in Candidate",
-  "CAST_BALLOT": "Cast Ballot"
+  "CAST_BALLOT": "Cast Ballot",
+  "VOTE_REVIEW": "Vote Review"
 }

@@ -184,6 +184,7 @@ npm run e2e
 
 - Set node / npm version in package.json
 - Git ignore build directory
+- Do I need to do anything to handle sequence?
 - Figure out how to do the build?
 - Figure out what needs to be displayed for ballot markup option
 - Clean up all modals

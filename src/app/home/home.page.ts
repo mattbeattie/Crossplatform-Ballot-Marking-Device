@@ -26,17 +26,10 @@ export class HomePage implements OnInit {
     autoHeight: true,
   };
 
-  // todo: better type once you have it, also - private? not sure
   election: Election;
   electionIsLoaded: boolean;
   remainingVotes: number;
-
-  // legacy properties below
-  public currentContest = 1;
-  public title: string;
-  public titleTwo: string;
-  public description: string;
-  public name: string;
+  currentContest = 1;
 
   constructor(
     private readonly modalController: ModalController,
@@ -82,19 +75,16 @@ export class HomePage implements OnInit {
     const componentProps = {
       scrollToContest: 0,
       election: this.election,
-      title: 'Vote Review',
-      body: 'election review goes here',
     };
     const modal = await this.modalController.create({ component: VoteReviewPage, componentProps });
     await modal.present();
   }
 
+  // thy do we have two vote review modals?
   async voteReviewSpecificContest(contestNumber: number): Promise<void> {
     const componentProps = {
       scrollToContest: contestNumber,
       election: this.election,
-      title: 'Vote Review',
-      body: 'election review goes here',
     };
     const modal = await this.modalController.create({ component: VoteReviewPage, componentProps });
     await modal.present();
