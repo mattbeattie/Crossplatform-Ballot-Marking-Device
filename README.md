@@ -1,15 +1,44 @@
 # MVP-App-TestHarness
 
-- [Development workflow](#development-workflow)
+- [Application Architecture](#application-architecture)
+- [Development Workflow](#development-workflow)
 - [Standardization and Quality Checks](#standardization-and-quality-checks)
   - [Linting](#linting)
   - [Formatting](#formatting)
   - [Unit testing](#unit-testing)
   - [Integration testing](#integration-testing)
+- [Todo](#todo)
 
-todo: write a basic description and some instructions for native building commands here
+The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application
 
-## Development workflow
+## Application Architecture
+
+This application is comprised of a single page (the `home` page) which uses several services and launches mulitiple modal pages to guide users through the ballot markup process.
+
+The services are as follows:
+
+1. The election model service, which handles fetching the XML election definition file and converting it to an object that the application can parse (including the TypeScript interfaces and enums which help define the model)
+2. The ballot state service, which holds the state for the user's choices, as well as the logic for generating the CVR (todo: should that be broken out into another service?)
+
+The modals are as follows:
+
+1. Model popup
+2. Present one contest
+3. Setting modal, which handles changing the election definition file on the fly todo: need to make sure this resets the user state when it switches
+4. Vote review
+5. Write-in modal, which handles the user input for the write-in option
+
+```
+todo: need to update this once I get around to cleaning up the modals
+```
+
+## Building native binaries
+
+```
+todo: need to determine the steps and write them here
+```
+
+## Development Workflow
 
 To ensure a standardized development workflow, all new changes should be added as Pull Requests. In order to be merged to the main branch, PRs must be:
 
@@ -77,3 +106,6 @@ npm run e2e
 - Set node / npm version in package.json
 - Git ignore build directory
 - Figure out how to do the build?
+- Figure out what needs to be displayed for ballot markup option
+- Clean up all modals
+- User state
