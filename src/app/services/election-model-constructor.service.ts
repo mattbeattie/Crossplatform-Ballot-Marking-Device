@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Parser } from 'xml2js';
-import { HttpClient } from '@angular/common/http';
 
 export enum ContestType {
   candidateContest = 'CandidateContest',
@@ -11,7 +9,7 @@ export interface Election {
   contests: Contest[];
 }
 
-interface Contest {
+export interface Contest {
   id: string;
   name: string;
   type: ContestType;
@@ -19,21 +17,21 @@ interface Contest {
   ballotSelections: (CandidateBallotSelection | BallotMeasureBallotSelection)[];
 }
 
-interface CandidateBallotSelection {
+export interface CandidateBallotSelection {
   candidates: Candidate[];
 }
 
-interface Candidate {
+export interface Candidate {
   id: string;
   name: string;
   partyAbbreviation: string;
 }
 
-interface BallotMeasureBallotSelection {
+export interface BallotMeasureBallotSelection {
   ballotMeasures: BallotMeasure[];
 }
 
-interface BallotMeasure {
+export interface BallotMeasure {
   id: string;
   sequenceOrder: number;
 }
@@ -41,66 +39,11 @@ interface BallotMeasure {
 @Injectable({
   providedIn: 'root',
 })
-export class ElectionModelService {
-  constructor(private readonly httpClient: HttpClient) {}
+export class ElectionModelConstructorService {
+  constructor() {}
 
   /**
-   * Public method which handles the fetching and parsing of the XML election file,
-   * and the construction of the Election model based on the contents within
-   *
-   * @param electionFileName
-   * @returns
-   */
-  async getElection(electionFileName: string): Promise<Election> {
-    return this.fetchElectionFile(electionFileName)
-      .then((electionXmlFileContents) => this.parseElectionFile(electionXmlFileContents))
-      .then((electionJsonFileContents) => this.constructElectionModel(electionJsonFileContents));
-  }
-
-  /**
-   * Fetches and return the raw election file XML contents from the specified XML filename
-   *
-   * @param electionFileName
-   * @returns
-   */
-  private async fetchElectionFile(electionFileName: string): Promise<string | void> {
-    return this.httpClient
-      .get(electionFileName, { responseType: 'text' })
-      .toPromise()
-      .then((xmlElection) => xmlElection)
-      .catch((err) => {
-        throw new Error(`Unable to fetch election XML file from ${electionFileName}: ${err}`);
-      });
-  }
-
-  /**
-   * Parses and returns the XML file contents and returns them in JSON format
-   *
-   * @param electionXmlFileContents
-   * @returns
-   */
-  private parseElectionFile(electionXmlFileContents: string | void): Promise<any> {
-    const convertXmlPropertNamesToCamelCase = (name: string) => `${name[0].toLowerCase()}${name.slice(1)}`;
-    const parser = new Parser({
-      attrkey: 'attributes',
-      charkey: 'characters',
-      normalize: true,
-      trim: true,
-      tagNameProcessors: [convertXmlPropertNamesToCamelCase],
-    });
-    return new Promise((resolve, reject) => {
-      parser.parseString(electionXmlFileContents, (err, electionJsonFileContents) => {
-        if (err) {
-          reject(`Unable to parse election XML file: ${err}`);
-        } else {
-          resolve(electionJsonFileContents);
-        }
-      });
-    });
-  }
-
-  /**
-   * Given the JSON file contents, constructs an Election model
+   * Given the election JSON file contents, constructs an Election model
    *
    * Note that because there's no way of knowing if properties will have one or more values, the parser treats all
    * all values as arrays - this requires some unique logic to handle and defend against potential edge cases
@@ -108,12 +51,8 @@ export class ElectionModelService {
    * @param electionJsonFileContents
    * @returns
    */
-  private constructElectionModel(electionJsonFileContents: any): Election {
+  constructElectionModel(electionJsonFileContents: any): Election {
     const electionReport = electionJsonFileContents.electionReport;
-    console.log(
-      '🚀 ~ file: election-model.service.ts ~ line 102 ~ ElectionModelService ~ constructElectionModel ~ electionReport',
-      electionReport
-    );
     if (electionReport.election.length > 1) {
       throw new Error(`Found ${electionJsonFileContents.election.length} elections, expected no more than 1`);
     }
@@ -211,9 +150,9 @@ export class ElectionModelService {
    */
   private getBallotMeasureBallotSelections(electionReport: any, contestResponse: any): BallotMeasureBallotSelection[] {
     return contestResponse.ballotSelection.map((ballotSelectionResponse: any) => {
+      // eslint-disable-next-line unused-imports/no-unused-vars
       const ballotMeasureId = ballotSelectionResponse.attributes.objectId;
-      console.log('🚀 ~ file: election-model.service.ts ~ line 215 ~ ElectionModelService ~ ballotMeasureId', ballotMeasureId);
-      // todo: determine how to get some text-based information given the ballot measure ID
+      // todo: determine how to get some text-based information given the ballot measure ID, remove the eslint-disable once that's working
       // initial inspection of the bmsXXXXX IDs in the election definition file didn't match any text describing the measureß
     });
   }

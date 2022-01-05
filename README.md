@@ -20,20 +20,17 @@ This application is comprised of a single page (the `home` page) which uses seve
 
 The services are as follows:
 
-1. The election model service, which handles fetching the XML election definition file and converting it to an object that the application can parse (including the TypeScript interfaces and enums which help define the model)
-2. The ballot state service, which holds the state for the user's choices, as well as the logic for generating the CVR (todo: should that be broken out into another service?)
+1. Election model fetcher service, which handles fetching the XML election definition file and converting it to a JSON object
+2. Election model constructor service, which handles parsing the JSON election into a usable model which this application can use (also includes the TypeScript interfaces and enums which help define the model)
+3. User selection service, which holds the state for the user's selections, as well as the logic for generating the CVR (todo: should that be broken out into another service?)
 
 The modals are as follows:
 
-1. Model popup
-2. Present one contest
-3. Setting modal, which handles changing the election definition file on the fly todo: need to make sure this resets the user state when it switches
-4. Vote review
-5. Write-in modal, which handles the user input for the write-in option
-
-```
-todo: need to update this once I get around to cleaning up the modals
-```
+1. Setting modal, which allows the user to change the election definition files on the fly
+2. Modal popup `todo: clean this up and get it working`
+3. Present one contest `todo: clean this up and get it working`
+4. Vote review `todo: clean this up and get it working`
+5. Write-in modal, which handles the user input for the write-in option `todo: clean this up and get it working`
 
 ## Running the Application
 

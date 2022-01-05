@@ -9,9 +9,8 @@ import { VoteReviewPage } from '../vote-review/vote-review.page';
 import { SettingsPage } from '../settings/settings.page';
 import { WriteinModalPage } from '../writein-modal/writein-modal.page';
 
-import { ElectionModelService, Election } from '../services/election-model.service';
-
-const DEFAULT_ELECTION_FILE = `/assets/data/64K_1Contest.xml`;
+import { ElectionFileFetcherService } from '../services/election-model-fetcher.service';
+import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
 
 @Component({
   selector: 'app-home',
@@ -28,13 +27,15 @@ export class HomePage implements OnInit {
 
   election: Election;
   electionIsLoaded: boolean;
+  currentElectionFile = `/assets/data/64K_1Contest.xml`;
   remainingVotes: number;
   currentContest = 1;
 
   constructor(
     private readonly modalController: ModalController,
     private readonly translate: TranslateService,
-    private readonly electionModelService: ElectionModelService
+    private readonly electionFileFetcherService: ElectionFileFetcherService,
+    private readonly electionModelConstructorService: ElectionModelConstructorService
   ) {
     SplashScreen.show({
       showDuration: 2000,
@@ -47,11 +48,7 @@ export class HomePage implements OnInit {
       this.translate.setDefaultLang('en');
       this.translate.use(navigator.language);
     }
-
-    this.electionModelService.getElection(DEFAULT_ELECTION_FILE).then((election) => {
-      this.election = election;
-      this.electionIsLoaded = true;
-    });
+    this.fetchAndLoadElection(this.currentElectionFile);
   }
 
   // SLIDE TRANSITIONS - are these between... contests?
@@ -71,6 +68,23 @@ export class HomePage implements OnInit {
 
   // MODAL LAUNCHERS
 
+  async openSettingsModal(): Promise<void> {
+    const componentProps = {
+      currentElectionFile: this.currentElectionFile,
+    };
+    const modal = await this.modalController.create({ component: SettingsPage, componentProps });
+    await modal.present();
+    modal.onDidDismiss().then((response) => {
+      const newElectionFile = response.data;
+      if (this.currentElectionFile !== newElectionFile) {
+        this.currentElectionFile = newElectionFile;
+        this.fetchAndLoadElection(newElectionFile);
+      }
+    });
+  }
+
+  // MODAL LAUNCHERS THAT STILL NEED WORK
+
   async openVoteReviewModal(): Promise<void> {
     const componentProps = {
       scrollToContest: 0,
@@ -87,12 +101,6 @@ export class HomePage implements OnInit {
       election: this.election,
     };
     const modal = await this.modalController.create({ component: VoteReviewPage, componentProps });
-    await modal.present();
-  }
-
-  async openSettingsModal(): Promise<void> {
-    const componentProps = {};
-    const modal = await this.modalController.create({ component: SettingsPage, componentProps });
     await modal.present();
   }
 
@@ -125,5 +133,18 @@ export class HomePage implements OnInit {
     };
     const modal = await this.modalController.create({ component: ModalPopupPage, componentProps });
     await modal.present();
+  }
+
+  // PRIVATE METHODS
+
+  private fetchAndLoadElection(electionFile: string) {
+    this.electionIsLoaded = false;
+    this.electionFileFetcherService
+      .fetchElection(electionFile)
+      .then((electionJsonFileContents) => this.electionModelConstructorService.constructElectionModel(electionJsonFileContents))
+      .then((election) => {
+        this.election = election;
+        this.electionIsLoaded = true;
+      });
   }
 }

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>settings</ion-title>
+    <ion-title>Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,16 +8,17 @@
   <ion-item>
     <ion-label>Data File: </ion-label>
     <ion-select
-      (ionChange)="myChange()"
-      [selectedText]="selectEDF"
-      [(ngModel)]="selectEDF"
-      value="results-06037-2017-03-07.xml"
+      [selectedText]="selectedElectionFileName"
+      [(ngModel)]="selectedElectionFileName"
+      value=""
       [compareWith]="compareWith"
       interface="popover"
       placeholder="Select an EDF"
     >
-      <ng-container *ngFor="let item of edFiles">
-        <ion-select-option *ngIf="item.trim().length > 0" value="{{item}}">{{item}}</ion-select-option>
+      <ng-container *ngFor="let availableElectionFileName of availableElectionFileNames">
+        <ion-select-option *ngIf="availableElectionFileName.trim().length > 0" value="{{availableElectionFileName}}"
+          >{{availableElectionFileName}}</ion-select-option
+        >
       </ng-container>
     </ion-select>
   </ion-item>

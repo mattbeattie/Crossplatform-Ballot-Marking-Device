@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Election } from './election-model.service';
+import { Election } from './election-model-constructor.service';
 
 @Injectable({
   providedIn: 'root',
