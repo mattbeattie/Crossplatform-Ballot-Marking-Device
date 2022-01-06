@@ -42,6 +42,12 @@ This application uses node 16 / npm 7, which is the current active LTS version. 
 nvm use
 ```
 
+Then install the dependencies as follows:
+
+```bash
+npm i
+```
+
 To run the application, simply execute the following:
 
 ```bash
@@ -81,6 +87,10 @@ Once the fix is pushed, GitHub Actions will run again and will re-check your lat
 So, how do you find out what the problem is? First, click on the "Details" button next to the failing status check. This will take you to the GitHub Actions page, and you'll see what quality gate failed.
 
 Below are some common examples:
+
+#### Install issues
+
+If the install fails, you may see any number of errors. One potential common culprit is an npm version mismatch. Generally speaking, you should only see changes in `package-lock.json` if the dependencies in `package.json` have changed. So if there's a large diff in `package-lock.json` without corresponding changes in `package.json`, you'll need to double check your version of node and ensure you're using the correct one. To do so, follow the steps in the [Running the Application](#running-the-application) section.
 
 #### Formatting issues
 
