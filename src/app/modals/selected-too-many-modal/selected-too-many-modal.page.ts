@@ -1,7 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
-import { Contest } from '../../classes/Contest';
 
 @Component({
   selector: 'app-selected-too-many-modal',
@@ -9,8 +7,6 @@ import { Contest } from '../../classes/Contest';
   styleUrls: ['./selected-too-many-modal.page.scss'],
 })
 export class SelectedTooManyModalPage {
-  @Input() contest: Contest;
-
   constructor(public modalController: ModalController) {}
 
   async closeModal() {

@@ -2,7 +2,7 @@ import { ViewChild, Component, Input } from '@angular/core';
 import { ModalController, IonContent } from '@ionic/angular';
 
 import { Election } from '../../classes/Election';
-import { HomePage } from '../home/home.page';
+import { HomePage } from '../pages/home/home.page';
 import { PresentOneContestPage } from '../present-one-contest/present-one-contest.page';
 import { CvrGeneratorService } from '../services/cvr-generator.service';
 

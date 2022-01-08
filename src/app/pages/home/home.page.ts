@@ -4,19 +4,19 @@ import { IonSlides } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SelectedTooManyModalPage } from '../selected-too-many-modal/selected-too-many-modal.page';
-import { VoteReviewPage } from '../vote-review/vote-review.page';
-import { SettingsModalPage } from '../settings-modal/settings-modal.page';
-import { WriteinModalPage } from '../writein-modal/writein-modal.page';
+import { SelectedTooManyModalPage } from '../../modals/selected-too-many-modal/selected-too-many-modal.page';
+import { VoteReviewPage } from '../../vote-review/vote-review.page';
+import { SettingsModalPage } from '../../modals/settings-modal/settings-modal.page';
+import { WriteinModalPage } from '../../writein-modal/writein-modal.page';
 
-import { ElectionFileFetcherService } from '../services/election-model-fetcher.service';
+import { ElectionFileFetcherService } from '../../services/election-model-fetcher.service';
 import {
   ElectionModelConstructorService,
   Election,
   Contest,
   CandidateBallotSelection,
   Candidate,
-} from '../services/election-model-constructor.service';
+} from '../../services/election-model-constructor.service';
 
 @Component({
   selector: 'app-home',

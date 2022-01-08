@@ -3,7 +3,7 @@ import * as jsonQuery from 'json-query';
 
 import { Election } from './Election';
 import { BallotSelection } from './BallotSelection';
-import { HomePage } from '../app/home/home.page';
+import { HomePage } from '../app/pages/home/home.page';
 
 export class Contest {
   readonly ballotSelectionQuery = '.BallotSelection[*]';

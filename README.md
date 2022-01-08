@@ -16,21 +16,31 @@ The project (codenamed "Elroy") handles ballot markup. It is part of the overall
 
 ## Application Architecture
 
-This application is comprised of a single page (the `home` page) which uses several services and launches mulitiple modal pages to guide users through the ballot markup process.
+This application is comprised of three main types of components:
 
-The services are as follows:
+### Pages
 
-1. Election model fetcher service, which handles fetching the XML election definition file and converting it to a JSON object
-2. Election model constructor service, which handles parsing the JSON election into a usable model which this application can use (also includes the TypeScript interfaces and enums which help define the model)
-3. User selection service, which holds the state for the user's selections, as well as the logic for generating the CVR (todo: should that be broken out into another service?)
+Pages live in `src/app/pages/`. The `home` page provides the root template which handles loading the application, launching the modals in the header and footer, and allowing the user to work their way through the various contest pages as part of the ballot markup process.
 
-The modals are as follows:
+Each election will contain multiple types of contests (e.g., candidate contests, ballot measure contests, etc) - each of these contest types should have their own page which will encapsulate all of its respective logic.
+
+### Modals
+
+Modals live in `src/app/modals`. The modals are as follows:
 
 1. Setting modal, which allows the user to change the election definition files on the fly
 2. Modal popup `todo: clean this up and get it working`
 3. Present one contest `todo: clean this up and get it working`
 4. Vote review `todo: clean this up and get it working`
 5. Write-in modal, which handles the user input for the write-in option `todo: clean this up and get it working`
+
+### Services
+
+Services live in `src/app/services`. Each service is responsible for a single task. The services are as follows:
+
+1. Election model fetcher service, which handles fetching the XML election definition file and converting it to a JSON object
+2. Election model constructor service, which handles parsing the JSON election into a usable model which this application can use (also includes the TypeScript interfaces and enums which help define the model)
+3. CVR generator service, which handles generating the CVR
 
 ## Running the Application
 
@@ -207,13 +217,19 @@ To run e2e tests manually, execute the following:
 npm run e2e
 ```
 
-## Todo
+# Todos
 
-- Clean up all modals
+## Immediate todos
+
+- Clean up all modals and move them into the modals directory
 - Encapsulate candidate contest view and logic into its own page
 - CVR generation
 - Remove legacy classes
-- Figure out what I need to do to properly handle sequences
-- Figure out how to do the native builds
+- Figure out why some EDFs fail to load
+
+## Later todo
+
+- Figure out how to do the native builds and add documentation for it
 - Figure out what needs to be displayed for ballot markup option
+- Add tests for everything
 - Update compromised packages per GitHub's recommendation

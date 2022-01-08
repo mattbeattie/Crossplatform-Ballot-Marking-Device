@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    loadChildren: () => import('./pages/home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: '',
@@ -13,7 +13,8 @@ const routes: Routes = [
   },
   {
     path: 'modal-popup',
-    loadChildren: () => import('./selected-too-many-modal/selected-too-many-modal.module').then((m) => m.SelectedTooManyModalPageModule),
+    loadChildren: () =>
+      import('./modals/selected-too-many-modal/selected-too-many-modal.module').then((m) => m.SelectedTooManyModalPageModule),
   },
   {
     path: 'vote-review',
@@ -25,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    loadChildren: () => import('./settings-modal/settings-modal.module').then((m) => m.SettingsModalPageModule),
+    loadChildren: () => import('./modals/settings-modal/settings-modal.module').then((m) => m.SettingsModalPageModule),
   },
   {
     path: 'writein-popup',

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Contest } from '../../classes/Contest';
-import { HomePage } from '../home/home.page';
+import { HomePage } from '../pages/home/home.page';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

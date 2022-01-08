@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as jsonQuery from 'json-query';
 
 import { Contest } from '../classes/Contest';
-import { HomePage } from '../app/home/home.page';
+import { HomePage } from '../app/pages/home/home.page';
 
 @Injectable()
 export class Election {
