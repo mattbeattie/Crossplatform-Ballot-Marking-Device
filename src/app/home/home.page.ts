@@ -18,7 +18,7 @@ import { ElectionModelConstructorService, Election } from '../services/election-
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('mySlider') slides: IonSlides;
+  @ViewChild('contestSlider') contestSlides: IonSlides;
 
   sliderConfig = {
     effect: 'cube',
@@ -51,23 +51,26 @@ export class HomePage implements OnInit {
     this.fetchAndLoadElection(this.currentElectionFile);
   }
 
-  // SLIDE TRANSITIONS - are these between... contests?
+  // EVENT HANDLERS
 
-  slideNext() {
-    this.slides.slideNext();
+  goToNextContest() {
+    this.contestSlides.slideNext();
     this.currentContest++;
     const contestCount = this.election.contests.length;
     this.currentContest = this.currentContest >= contestCount ? contestCount : this.currentContest;
   }
 
-  slidePrevious() {
-    this.slides.slidePrev();
+  goToPreviousContest() {
+    this.contestSlides.slidePrev();
     this.currentContest--;
     this.currentContest = this.currentContest <= 0 ? 1 : this.currentContest;
   }
 
   // MODAL LAUNCHERS
 
+  /**
+   * Opens the settings modal, which allows the user to change between election files
+   */
   async openSettingsModal(): Promise<void> {
     const componentProps = {
       currentElectionFile: this.currentElectionFile,
@@ -137,6 +140,12 @@ export class HomePage implements OnInit {
 
   // PRIVATE METHODS
 
+  /**
+   * Handles fetching and loading the election file,
+   * either on initial load or when changing election files using the settings modal
+   *
+   * @param electionFile
+   */
   private fetchAndLoadElection(electionFile: string) {
     this.electionIsLoaded = false;
     this.electionFileFetcherService

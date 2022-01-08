@@ -19,7 +19,7 @@
   </div>
 
   <div *ngIf="electionIsLoaded">
-    <ion-slides #mySlider [options]="sliderConfig">
+    <ion-slides #contestSlider [options]="sliderConfig">
       <ion-slide *ngFor="let contest of election.contests">
         <div *ngIf="contest.type === 'CandidateContest'">
           <br />
@@ -77,13 +77,13 @@
       <ion-toolbar>
         <div class="center-button">
           <div>
-            <ion-button slot="start" outline (click)="slidePrevious()" translate
+            <ion-button slot="start" outline (click)="goToPreviousContest()" translate
               >PREVIOUS
               <ion-icon slot="start" name="arrow-undo-outline"></ion-icon>
             </ion-button>
 
             <ion-label style="padding: 20px">{{currentContest}}/{{election.contests.length}}</ion-label>
-            <ion-button slot="end" outline (click)="slideNext()" translate>
+            <ion-button slot="end" outline (click)="goToNextContest()" translate>
               NEXT
               <ion-icon slot="end" name="arrow-redo-outline"></ion-icon>
             </ion-button>
