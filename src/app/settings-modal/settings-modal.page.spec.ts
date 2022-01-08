@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SettingsPage } from './settings.page';
+import { SettingsModalPage } from './settings-modal.page';
 
-describe('SettingsPage', () => {
-  let component: SettingsPage;
-  let fixture: ComponentFixture<SettingsPage>;
+describe('SettingsModalPage', () => {
+  let component: SettingsModalPage;
+  let fixture: ComponentFixture<SettingsModalPage>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [SettingsPage],
+        declarations: [SettingsModalPage],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SettingsPage);
+      fixture = TestBed.createComponent(SettingsModalPage);
       component = fixture.componentInstance;
       component.home = {
         getEDF: () => {},

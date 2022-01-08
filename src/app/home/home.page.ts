@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SelectedTooManyModalPage } from '../selected-too-many-modal/selected-too-many-modal.page';
 import { VoteReviewPage } from '../vote-review/vote-review.page';
-import { SettingsPage } from '../settings/settings.page';
+import { SettingsModalPage } from '../settings-modal/settings-modal.page';
 import { WriteinModalPage } from '../writein-modal/writein-modal.page';
 
 import { ElectionFileFetcherService } from '../services/election-model-fetcher.service';
@@ -130,7 +130,7 @@ export class HomePage implements OnInit {
     const componentProps = {
       currentElectionFile: this.currentElectionFile,
     };
-    const modal = await this.modalController.create({ component: SettingsPage, componentProps });
+    const modal = await this.modalController.create({ component: SettingsModalPage, componentProps });
     await modal.present();
     modal.onDidDismiss().then((response) => {
       const newElectionFile = response.data;

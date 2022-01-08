@@ -3,11 +3,11 @@ import { ModalController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.page.html',
-  styleUrls: ['./settings.page.scss'],
+  selector: 'app-settings-modal',
+  templateUrl: './settings-modal.page.html',
+  styleUrls: ['./settings-modal.page.scss'],
 })
-export class SettingsPage implements OnInit {
+export class SettingsModalPage implements OnInit {
   @Input() currentElectionFile: string;
 
   availableElectionFileNames: string[];
