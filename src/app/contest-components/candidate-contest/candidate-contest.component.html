@@ -1,0 +1,47 @@
+<br />
+<br />
+<div>
+  <ion-label>{{ contest.name }}</ion-label>
+  <br />
+  <ion-label float="left" slot="start">{{ 'VOTE_FOR' | translate }}</ion-label>
+  <ion-label>{{ contest.allowedVotes }} </ion-label>
+  <br />
+  <ion-label float="right" slot="end">{{ 'YOU_CAN_CHOOSE' | translate }}</ion-label>
+  <ion-label color="danger" slot="end">{{ getRemainingCandidateVotes(contest) }}</ion-label>
+  <ion-label slot="end">{{ 'MORE' | translate }}</ion-label>
+  <br />
+  <br />
+  <div class="center-button">
+    <ion-item>
+      <ion-button disabled="true" color="warning" margin:auto>
+        <ion-icon name="arrow-up"></ion-icon>
+        Touch to see more names
+        <ion-icon name="arrow-up"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+  <ion-list no-line>
+    <div *ngFor="let ballotSelection of contest.ballotSelections">
+      <div *ngFor="let candidate of ballotSelection.candidates">
+        <ion-row no-line>
+          <ion-item text-wrap no-line item-start>
+            <ion-checkbox
+              [(ngModel)]="candidate.isSelected"
+              (ionChange)="deselectAndDisplayModalIfTooManySelected($event, contest, candidate.id)"
+            ></ion-checkbox>
+            <ion-label no-line>{{ candidate.name }} {{ candidate.partyAbbreviation }}</ion-label>
+          </ion-item>
+        </ion-row>
+      </div>
+    </div>
+  </ion-list>
+  <div class="center-button">
+    <ion-item>
+      <ion-button disabled="true" color="warning" margin:auto>
+        <ion-icon name="arrow-down"></ion-icon>
+        Touch to see more names
+        <ion-icon name="arrow-down"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+</div>

@@ -1,6 +1,11 @@
 # MVP-App-TestHarness
 
 - [Application Architecture](#application-architecture)
+  - [Home page](#home-page)
+  - [Contest components](#contest-components)
+  - [Modals](#modals)
+  - [Services](#services)
+  - [How do I...](#how-do-i)
 - [Running the Application](#running-the-application)
 - [Building Native Binaries](#building-native-binaries)
 - [Development Workflow](#development-workflow)
@@ -16,31 +21,49 @@ The project (codenamed "Elroy") handles ballot markup. It is part of the overall
 
 ## Application Architecture
 
-This application is comprised of three main types of components:
+Inside the `src/app` directory, there are several root directories where the core of the application's logic lives.
 
-### Pages
+### Home page
 
-Pages live in `src/app/pages/`. The `home` page provides the root template which handles loading the application, launching the modals in the header and footer, and allowing the user to work their way through the various contest pages as part of the ballot markup process.
+The home page lives in `src/app/home/` and is the root of the application.
 
-Each election will contain multiple types of contests (e.g., candidate contests, ballot measure contests, etc) - each of these contest types should have their own page which will encapsulate all of its respective logic.
+The home page provides the root template which handles loading the application, launching the modals in the header and footer, and allowing the user to work their way through the various contest pages as part of the ballot markup process.
+
+### Contest components
+
+Contest components live in `src/app/contest-components/`.
+
+Each election will contain multiple types of contests (e.g., candidate contests, ballot measure contests, etc, and each of these contest types will have their own unique logic and display rules. Therefore, each contest's template and logic are encapsulated in its own logic.
 
 ### Modals
 
-Modals live in `src/app/modals`. The modals are as follows:
+Modals live in `src/app/modals/`. The modals are as follows:
 
-1. Setting modal, which allows the user to change the election definition files on the fly
-2. Modal popup `todo: clean this up and get it working`
+1. "Settings" modal, which allows the user to change the election definition files on the fly
+2. "Selected too many" modal, which handles
 3. Present one contest `todo: clean this up and get it working`
 4. Vote review `todo: clean this up and get it working`
 5. Write-in modal, which handles the user input for the write-in option `todo: clean this up and get it working`
 
 ### Services
 
-Services live in `src/app/services`. Each service is responsible for a single task. The services are as follows:
+Services live in `src/app/services/`. Each service is responsible for a single task. The services are as follows:
 
 1. Election model fetcher service, which handles fetching the XML election definition file and converting it to a JSON object
 2. Election model constructor service, which handles parsing the JSON election into a usable model which this application can use (also includes the TypeScript interfaces and enums which help define the model)
 3. CVR generator service, which handles generating the CVR
+
+### How do I...
+
+#### Add a new type of contest?
+
+If you're adding a new type of contest, you'll need to do the following:
+
+1. Update the election modal constructor service to parse out the new contest type from the election data file, updating and adding to the interfaces as necessary
+2. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `contest-components` directory
+3. Update `home.module.ts`, adding the new component to the `entryComponents` and `declarations` array
+4. Update `home.page.html`, adding a conditional for the new contest type which loads the new component and passes in the contest object accordingly
+5. Build the necessary template and logic for the new contest into that contest's component
 
 ## Running the Application
 
@@ -221,7 +244,6 @@ npm run e2e
 
 ## Immediate todos
 
-- Encapsulate candidate contest view and logic into its own page
 - Get vote review and present one contest modals working, and then move them into the modals directory
 - CVR generation
 - Figure out why some EDFs fail to load

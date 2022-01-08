@@ -8,6 +8,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
+import { CandidateContestComponent } from '../contest-components/candidate-contest/candidate-contest.component';
+import { BallotMeasureContestComponent } from '../contest-components/ballot-measure-contest/ballot-measure-contest.component';
 
 @NgModule({
   imports: [
@@ -23,6 +25,7 @@ import { HomePageRoutingModule } from './home-routing.module';
       },
     }),
   ],
-  declarations: [HomePage],
+  entryComponents: [CandidateContestComponent, BallotMeasureContestComponent],
+  declarations: [HomePage, CandidateContestComponent, BallotMeasureContestComponent],
 })
 export class HomePageModule {}

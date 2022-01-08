@@ -4,19 +4,12 @@ import { IonSlides } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SelectedTooManyModalPage } from '../../modals/selected-too-many-modal/selected-too-many-modal.page';
-import { VoteReviewPage } from '../../vote-review/vote-review.page';
-import { SettingsModalPage } from '../../modals/settings-modal/settings-modal.page';
-import { WriteinModalPage } from '../../writein-modal/writein-modal.page';
+import { VoteReviewPage } from '../vote-review/vote-review.page';
+import { SettingsModalPage } from '../modals/settings-modal/settings-modal.page';
+import { WriteinModalPage } from '../writein-modal/writein-modal.page';
 
-import { ElectionFileFetcherService } from '../../services/election-model-fetcher.service';
-import {
-  ElectionModelConstructorService,
-  Election,
-  Contest,
-  CandidateBallotSelection,
-  Candidate,
-} from '../../services/election-model-constructor.service';
+import { ElectionFileFetcherService } from '../services/election-model-fetcher.service';
+import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
 
 @Component({
   selector: 'app-home',
@@ -75,50 +68,6 @@ export class HomePage implements OnInit {
     this.contestSlides.slidePrev();
     this.currentContest--;
     this.currentContest = this.currentContest <= 0 ? 1 : this.currentContest;
-  }
-
-  /**
-   * Any time a candidate is selected, we need to check to see if the user selected too many candidates.
-   * If so, display the "too many selected" modal and automatically deselect their most recent selection.
-   *
-   * @param event
-   * @param candidateId
-   */
-  async deselectAndDisplayModalIfTooManySelected(event: any, contest: Contest, candidateId: string) {
-    const wasCheckAction: boolean = event.detail.checked;
-    const remainingCandidateVotes = this.getRemainingCandidateVotes(contest);
-    if (wasCheckAction && remainingCandidateVotes < 0) {
-      const modal = await this.modalController.create({ component: SelectedTooManyModalPage });
-      await modal.present();
-      contest.ballotSelections.forEach((ballotSelection: CandidateBallotSelection) => {
-        const matchingCandidate = ballotSelection.candidates.find((candidate: Candidate) => candidate.id === candidateId);
-        if (!!matchingCandidate) {
-          matchingCandidate.isSelected = false;
-        }
-      });
-    }
-  }
-
-  /**
-   * Gets the remaining available votes for a candidate type contest
-   *
-   * @param contest
-   * @returns
-   */
-  getRemainingCandidateVotes(contest: Contest): number {
-    const allowedVotes = contest.allowedVotes;
-    const totalSelectedCandidates: number = contest.ballotSelections.reduce(
-      (selectedCandidatesAccumulator: number, currentBallotSelection: CandidateBallotSelection) => {
-        const selectedCandidatesForCurrentBallotSelection: number = currentBallotSelection.candidates.reduce(
-          (ballotSelectionAccumulator: number, candidate: Candidate) =>
-            candidate.isSelected ? ballotSelectionAccumulator + 1 : ballotSelectionAccumulator,
-          0
-        );
-        return selectedCandidatesAccumulator + selectedCandidatesForCurrentBallotSelection;
-      },
-      0
-    );
-    return allowedVotes - totalSelectedCandidates;
   }
 
   // MODAL LAUNCHERS
