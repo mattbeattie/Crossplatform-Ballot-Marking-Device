@@ -1,5 +1,6 @@
 # MVP-App-TestHarness
 
+<<<<<<< HEAD
 - [Application Architecture](#application-architecture)
   - [Home page](#home-page)
   - [Contest components](#contest-components)
@@ -8,6 +9,9 @@
   - [How do I...](#how-do-i)
 - [Running the Application](#running-the-application)
 - [Building Native Binaries](#building-native-binaries)
+=======
+- [Running the Application](#running-the-application)
+>>>>>>> 61683c67b4f11affaa8d3441ad153db7dbe18dea
 - [Development Workflow](#development-workflow)
   - [What to do when your PR shows a failing status check](#what-to-do-when-your-pr-shows-a-failing-status-check)
 - [Standardization and Quality Checks](#standardization-and-quality-checks)
@@ -15,6 +19,7 @@
   - [Formatting](#formatting)
   - [Unit testing](#unit-testing)
   - [E2E testing](#e2e-testing)
+<<<<<<< HEAD
 - [Todo](#todo)
 
 The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application
@@ -65,6 +70,11 @@ If you're adding a new type of contest, you'll need to do the following:
 4. Update `home.page.html`, adding a conditional for the new contest type which loads the new component and passes in the contest object accordingly
 5. Build the necessary template and logic for the new contest into that contest's component
 
+=======
+
+The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application
+
+>>>>>>> 61683c67b4f11affaa8d3441ad153db7dbe18dea
 ## Running the Application
 
 Ensure you're using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to handle your node versions. If you don't already have it set up on your machine, use nvm's instructions to download and install it.
@@ -89,12 +99,15 @@ npm start
 
 And navigate to [http://localhost:4200/home](http://localhost:4200/home) in your browser.
 
+<<<<<<< HEAD
 ## Building Native Binaries
 
 ```
 todo: need to determine the steps and write them here
 ```
 
+=======
+>>>>>>> 61683c67b4f11affaa8d3441ad153db7dbe18dea
 ## Development Workflow
 
 To ensure a standardized development workflow, all new changes should be added as Pull Requests. In order to be merged to the main branch, PRs must be:
