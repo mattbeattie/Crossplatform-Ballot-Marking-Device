@@ -1,7 +1,7 @@
 {
   "TOO_MANY_TITLE": "Too many selected",
   "YOU_CAN_CHOOSE": "You can choose ",
-  "SELECTED_TOO_MANY": "You have selected too many candidates - please deselect the candidate you do not want, then select the candidate you do want.",
+  "SELECTED_TOO_MANY": "You have selected too many candidates. The last candidate you selected has been automatically deselected; please reselect accordingly.",
   "MORE": " more.",
   "CLOSE": "Close",
   "SETTINGS": "Settings",

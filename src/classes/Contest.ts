@@ -160,16 +160,15 @@ export class Contest {
       //     .subscribe((res: string) => {
       //       this.statusMessage1 = res;
       //     });
-
       //   this.home
       //     .getTranslator()
       //     .get('TOO_MANY_TITLE')
       //     .subscribe((res: string) => {
       //       this.popupTitle = res;
       //     });
-      const popupContent = { title: this.popupTitle, body: this.statusMessage1 };
-      cbox.currentTarget.checked = false;
-      this.home.openIonModal(popupContent);
+      // const popupContent = { title: this.popupTitle, body: this.statusMessage1 };
+      // cbox.currentTarget.checked = false;
+      // this.home.openIonModal(popupContent);
     }
   }
 

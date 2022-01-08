@@ -25,6 +25,7 @@ export interface Candidate {
   id: string;
   name: string;
   partyAbbreviation: string;
+  isSelected: boolean;
 }
 
 export interface BallotMeasureBallotSelection {
@@ -135,6 +136,7 @@ export class ElectionModelConstructorService {
           id: candidateId,
           name,
           partyAbbreviation,
+          isSelected: false,
         };
       });
       return { candidates };

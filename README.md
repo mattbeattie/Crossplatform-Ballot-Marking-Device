@@ -209,8 +209,8 @@ npm run e2e
 
 ## Todo
 
-- Set / manage user state
 - Clean up all modals
+- Encapsulate candidate contest view and logic into its own page
 - CVR generation
 - Remove legacy classes
 - Figure out what I need to do to properly handle sequences

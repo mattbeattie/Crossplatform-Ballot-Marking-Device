@@ -31,7 +31,7 @@
             <ion-label>{{contest.allowedVotes}} </ion-label>
             <br />
             <ion-label float="right" slot="end">{{ 'YOU_CAN_CHOOSE' | translate }}</ion-label>
-            <ion-label color="danger" slot="end">{{contest.remainingVotes}}</ion-label>
+            <ion-label color="danger" slot="end">{{ getRemainingCandidateVotes(contest) }}</ion-label>
             <ion-label slot="end">{{ 'MORE' | translate }}</ion-label>
             <br />
             <br />
@@ -48,10 +48,10 @@
               <div *ngFor="let ballotSelection of contest.ballotSelections">
                 <div *ngFor="let candidate of ballotSelection.candidates">
                   <ion-row no-line>
-                    <ion-item text-wrap no-line item-start (click)="itemClicked($event, candidate)">
+                    <ion-item text-wrap no-line item-start>
                       <ion-checkbox
-                        [(ngModel)]="ballotSelection.selected"
-                        (ionChange)="item.ionChangeUpdateCheckbox($event)"
+                        [(ngModel)]="candidate.isSelected"
+                        (ionChange)="deselectAndDisplayModalIfTooManySelected($event, contest, candidate.id)"
                       ></ion-checkbox>
                       <ion-label no-line>{{candidate.name}} {{candidate.partyAbbreviation}}</ion-label>
                     </ion-item>
