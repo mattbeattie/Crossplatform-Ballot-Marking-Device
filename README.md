@@ -246,10 +246,11 @@ npm run e2e
 
 - Get vote review and present one contest modals working, and then move them into the modals directory
 - CVR generation
-- Figure out why some EDFs fail to load
+- Get write-ins working
 
 ## Later todo
 
+- Figure out why some EDFs fail to load
 - Figure out how to do the native builds and add documentation for it
 - Figure out what needs to be displayed for ballot markup option
 - Add tests for everything
