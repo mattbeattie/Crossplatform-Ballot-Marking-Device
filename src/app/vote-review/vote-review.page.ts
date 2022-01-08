@@ -1,9 +1,6 @@
 import { ViewChild, Component, Input } from '@angular/core';
 import { ModalController, IonContent } from '@ionic/angular';
 
-import { Election } from '../../classes/Election';
-import { HomePage } from '../pages/home/home.page';
-import { PresentOneContestPage } from '../present-one-contest/present-one-contest.page';
 import { CvrGeneratorService } from '../services/cvr-generator.service';
 
 @Component({
@@ -11,13 +8,9 @@ import { CvrGeneratorService } from '../services/cvr-generator.service';
   selector: 'page-vote-review',
   templateUrl: 'vote-review.page.html',
   styleUrls: ['vote-review.page.scss'],
-  providers: [Election],
 })
 export class VoteReviewPage {
   @ViewChild(IonContent, { static: false }) content: IonContent;
-
-  @Input() public election: Election;
-  @Input() public home: HomePage;
   @Input() public scrollToContest: number;
 
   constructor(private readonly modalController: ModalController, private readonly cvrGeneratorService: CvrGeneratorService) {}
@@ -44,18 +37,19 @@ export class VoteReviewPage {
 
   async closeModalCastBallot() {
     await this.modalController.dismiss();
-    this.cvrGeneratorService.createCVR(this.home.election);
+    // this.cvrGeneratorService.createCVR(this.home.election);
   }
 
   async oneVoteReview(contestNum: number): Promise<void> {
+    console.log('🚀 ~ file: vote-review.page.ts ~ line 45 ~ VoteReviewPage ~ oneVoteReview ~ contestNum', contestNum);
     this.closeModal();
-    const oneContestPopupContent = { contest: this.election.getContestByIndex(contestNum), contestNum, home: this.home };
-    const oneContestModal = await this.modalController.create({
-      component: PresentOneContestPage,
-      componentProps: oneContestPopupContent,
-    });
+    // const oneContestPopupContent = { contest: this.election.getContestByIndex(contestNum), contestNum, home: this.home };
+    // const oneContestModal = await this.modalController.create({
+    //   component: PresentOneContestPage,
+    //   componentProps: oneContestPopupContent,
+    // });
 
-    await oneContestModal.present();
+    // await oneContestModal.present();
   }
 
   scrollToContestID(num) {

@@ -221,10 +221,9 @@ npm run e2e
 
 ## Immediate todos
 
-- Clean up all modals and move them into the modals directory
 - Encapsulate candidate contest view and logic into its own page
+- Get vote review and present one contest modals working, and then move them into the modals directory
 - CVR generation
-- Remove legacy classes
 - Figure out why some EDFs fail to load
 
 ## Later todo
