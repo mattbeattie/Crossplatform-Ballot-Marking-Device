@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ModalPopupPage } from './modal-popup.page';
+import { SelectedTooManyModalPage } from './selected-too-many-modal.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ModalPopupPage,
+    component: SelectedTooManyModalPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ModalPopupPageRoutingModule {}
+export class SelectedTooManyModalPageRoutingModule {}

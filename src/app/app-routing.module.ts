@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'modal-popup',
-    loadChildren: () => import('./modal-popup/modal-popup.module').then((m) => m.ModalPopupPageModule),
+    loadChildren: () => import('./selected-too-many-modal/selected-too-many-modal.module').then((m) => m.SelectedTooManyModalPageModule),
   },
   {
     path: 'vote-review',

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ModalPopupPage } from './modal-popup.page';
+import { SelectedTooManyModalPage } from './selected-too-many-modal.page';
 
-describe('ModalPopupPage', () => {
-  let component: ModalPopupPage;
-  let fixture: ComponentFixture<ModalPopupPage>;
+describe('SelectedTooManyModalPage', () => {
+  let component: SelectedTooManyModalPage;
+  let fixture: ComponentFixture<SelectedTooManyModalPage>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ModalPopupPage],
+        declarations: [SelectedTooManyModalPage],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(ModalPopupPage);
+      fixture = TestBed.createComponent(SelectedTooManyModalPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })
