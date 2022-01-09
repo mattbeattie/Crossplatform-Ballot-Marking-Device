@@ -12,6 +12,10 @@
   - [Unit testing issues](#unit-testing-issues)
   - [E2E testing issues](#e2e-testing-issues)
 
+This project uses various tools and frameworks for code standardization and ensuring quality. These tools and frameworks are enforced using GitHub Actions, and are run on all Pull Requests to guarantee that all new code does not introduce bugs or degrade the quality of the application in any way.
+
+This document describes those tools and frameworks, explains how to use them, and provides guidance on what to do if they fail in GitHub Actions.
+
 ## Standardization and Quality Checks
 
 ### Linting

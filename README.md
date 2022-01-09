@@ -1,57 +1,41 @@
 # MVP-App-TestHarness
 
 - [Application Architecture](#application-architecture)
-  - [Home page](#home-page)
-  - [Contest components](#contest-components)
-  - [Modals](#modals)
-  - [Services](#services)
-  - [How do I...](#how-do-i)
+  - [Application parts and filesystem structure](#application-parts-and-filesystem-structure)
+  - [Adding a new "type" of contest](#adding-a-new-type-of-contest)
 - [Running the Application](#running-the-application)
 - [Ensuring Quality in the Application](#ensuring-quality-in-the-application)
 - [Building Native Binaries](#building-native-binaries)
 - [Development Workflow](#development-workflow)
-
-- [Todo](#todo)
+- [Todos](#todos)
+  - [Immediate todos](#immediate-todos)
+  - [Later todo](#later-todo)
 
 The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application
 
 ## Application Architecture
 
-Inside the `src/app` directory, there are several root directories where the core of the application's logic lives.
+The ballot markup application has three main goals:
 
-### Home page
+1. Load and parse an election data file (EDF)
+2. Guide the user through the process of making selections for each contest
+3. On submission, generate a cast vote record (CVR) to be sent downstream
 
-The home page lives in `src/app/home/` and is the root of the application.
+To that end, the application is generally structured as follows:
 
-The home page provides the root template which handles loading the application, launching the modals in the header and footer, and allowing the user to work their way through the various contest pages as part of the ballot markup process.
+![image](https://user-images.githubusercontent.com/7593323/148698710-5c5656b1-a6ff-4c28-8a65-9682bf844220.png)
 
-### Ccomponents
+### Application parts and filesystem structure
 
-Each contest's HTML template and business logic are encapsulated in its own component inside `src/app/components/`.
+The "Home" Page lives in `src/app/home/`, and is the root of the application. The home page provides the root template which handles loading the application, launching the modals in the header and footer, and allowing the user to work their way through the various contest pages as part of the ballot markup process.
 
-Each election will contain multiple types of contests (e.g., candidate contests, ballot measure contests, etc, and each of these contest types will have their own unique logic and display rules. Therefore, each contest's template and logic are encapsulated in its own logic.
+Contest Components live in `src/app/components/`, and contain the HTML templates and business logic required for each type of contest. Given that every election will contain multiple types of contests (e.g., candidate contests, ballot measure contests, etc), each must have their own unique logic and display rules - encapsulated in a single component.
 
-### Modals
+Modals live in `src/app/modals/`, and are responsible for launching a modal view to the user. Modals should be simple and singular in purpose. They may capture and return some user input to the calling page/component, or they may be launched for informational purposes only.
 
-Modals live in `src/app/modals/`. The modals are as follows:
+Services live in `src/app/services/`, and are each responsible for single task. Complex business logic should generally not live in any of the aforementioned application parts, and so therefore are handled at the service layer. At this time nothing from the components or modals use anything from the service layer; however, if these application parts find themselves doing something similar or even identical, that logic should be moved to the service layer accordingly.
 
-1. "Settings" modal, which allows the user to change the election definition files on the fly
-2. "Selected too many" modal, which handles
-3. Present one contest `todo: clean this up and get it working`
-4. Vote review `todo: clean this up and get it working`
-5. Write-in modal, which handles the user input for the write-in option `todo: clean this up and get it working`
-
-### Services
-
-Services live in `src/app/services/`. Each service is responsible for a single task. The services are as follows:
-
-1. Election model fetcher service, which handles fetching the XML election definition file and converting it to a JSON object
-2. Election model constructor service, which handles parsing the JSON election into a usable model which this application can use (also includes the TypeScript interfaces and enums which help define the model)
-3. CVR generator service, which handles generating the CVR
-
-### How do I...
-
-#### Add a new type of contest?
+### Adding a new "type" of contest
 
 If you're adding a new type of contest, you'll need to do the following:
 
