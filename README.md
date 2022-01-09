@@ -1,4 +1,4 @@
-# MVP-App-TestHarness
+# Ballot Markup Application ("Elroy")
 
 - [Application Architecture](#application-architecture)
   - [Application parts and filesystem structure](#application-parts-and-filesystem-structure)
@@ -88,6 +88,8 @@ To ensure a standardized development workflow, all new changes should be added a
 3. Approved by at least one other person
 
 When merging, the "squash and merge" strategy is used, which ensures all commits in the feature branch have been squashed to a single commit. This keeps the main branch's commit logs clean and readable.
+
+For guidance on what to do if the quality checks fail, see the [corresponding section in the Quality Checks](./QUALITY_CHECKS.md#what-to-do-when-your-pr-shows-a-failing-status-check) page.
 
 ## Todos
 

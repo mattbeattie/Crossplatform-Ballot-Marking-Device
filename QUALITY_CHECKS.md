@@ -95,17 +95,6 @@ Below are some common examples:
 
 If the install fails, you may see any number of errors. One potential common culprit is an npm version mismatch. Generally speaking, you should only see changes in `package-lock.json` if the dependencies in `package.json` have changed. So if there's a large diff in `package-lock.json` without corresponding changes in `package.json`, you'll need to double check your version of node and ensure you're using the correct one. To do so, follow the steps in the [Running the Application](#running-the-application) section.
 
-### Formatting issues
-
-If formatting fails, you might see something like the following:
-
-```bash
-[warn] Code style issues found in the above file(s). Forgot to run Prettier?
-Error: Process completed with exit code 1.
-```
-
-You'll need reproduce the error locally using the instructions found here under the [Formatting](#formatting) section. Then implement, commit, and push a fix, and confirm that the next run completes successfully.
-
 ### Linting issues
 
 If linting fails, you might see something like the following:
@@ -120,6 +109,17 @@ Lint errors found in the listed files.
 ```
 
 You'll need reproduce the error locally using the instructions found here under the [Linting](#linting) section. Then implement, commit, and push a fix, and confirm that the next run completes successfully.
+
+### Formatting issues
+
+If formatting fails, you might see something like the following:
+
+```bash
+[warn] Code style issues found in the above file(s). Forgot to run Prettier?
+Error: Process completed with exit code 1.
+```
+
+You'll need reproduce the error locally using the instructions found here under the [Formatting](#formatting) section. Then implement, commit, and push a fix, and confirm that the next run completes successfully.
 
 ### Unit testing issues
 
