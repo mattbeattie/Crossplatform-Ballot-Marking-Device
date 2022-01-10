@@ -16,10 +16,6 @@ describe('PresentOneContestPage', () => {
 
       fixture = TestBed.createComponent(PresentOneContestPage);
       component = fixture.componentInstance;
-      component.contest = {
-        getVotesAllowed: () => {},
-      } as any;
-      component.home = {} as any;
       fixture.detectChanges();
     })
   );

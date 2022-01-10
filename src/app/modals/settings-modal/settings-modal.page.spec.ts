@@ -16,9 +16,6 @@ describe('SettingsModalPage', () => {
 
       fixture = TestBed.createComponent(SettingsModalPage);
       component = fixture.componentInstance;
-      component.home = {
-        getEDF: () => {},
-      } as any;
       fixture.detectChanges();
     })
   );
