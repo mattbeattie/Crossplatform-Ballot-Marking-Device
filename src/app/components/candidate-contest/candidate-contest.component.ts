@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
-import { SelectedTooManyModalPage } from '../../modals/selected-too-many-modal/selected-too-many-modal.page';
+import { SelectedTooManyPage } from '../../modals/selected-too-many/selected-too-many.page';
 import { Contest, CandidateBallotSelection, Candidate } from '../../services/election-model-constructor.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class CandidateContestComponent implements OnInit {
     const wasCheckAction: boolean = event.detail.checked;
     const remainingCandidateVotes = this.getRemainingCandidateVotes(contest);
     if (wasCheckAction && remainingCandidateVotes < 0) {
-      const modal = await this.modalController.create({ component: SelectedTooManyModalPage });
+      const modal = await this.modalController.create({ component: SelectedTooManyPage });
       await modal.present();
       contest.ballotSelections.forEach((ballotSelection: CandidateBallotSelection) => {
         const matchingCandidate = ballotSelection.candidates.find((candidate: Candidate) => candidate.id === candidateId);

@@ -1,11 +1,10 @@
 import { ViewChild, Component, Input } from '@angular/core';
 import { ModalController, IonContent } from '@ionic/angular';
 
-import { CvrGeneratorService } from '../services/cvr-generator.service';
+import { CvrGeneratorService } from '../../services/cvr-generator.service';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'page-vote-review',
+  selector: 'app-vote-review',
   templateUrl: 'vote-review.page.html',
   styleUrls: ['vote-review.page.scss'],
 })

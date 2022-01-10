@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { WriteinModalPage } from './writein-modal.page';
+import { SelectedTooManyPage } from './selected-too-many.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: WriteinModalPage,
+    component: SelectedTooManyPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class WriteinModalPageRoutingModule {}
+export class SelectedTooManyPageRoutingModule {}

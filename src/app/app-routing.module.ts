@@ -13,24 +13,23 @@ const routes: Routes = [
   },
   {
     path: 'modal-popup',
-    loadChildren: () =>
-      import('./modals/selected-too-many-modal/selected-too-many-modal.module').then((m) => m.SelectedTooManyModalPageModule),
+    loadChildren: () => import('./modals/selected-too-many/selected-too-many.module').then((m) => m.SelectedTooManyPageModule),
   },
   {
     path: 'vote-review',
-    loadChildren: () => import('./vote-review/vote-review.module').then((m) => m.VoteReviewPageModule),
+    loadChildren: () => import('./modals/vote-review/vote-review.module').then((m) => m.VoteReviewPageModule),
   },
   {
     path: 'present-one-contest',
-    loadChildren: () => import('./present-one-contest/present-one-contest.module').then((m) => m.PresentOneContestPageModule),
+    loadChildren: () => import('./modals/present-one-contest/present-one-contest.module').then((m) => m.PresentOneContestPageModule),
   },
   {
     path: 'settings',
-    loadChildren: () => import('./modals/settings-modal/settings-modal.module').then((m) => m.SettingsModalPageModule),
+    loadChildren: () => import('./modals/settings/settings.module').then((m) => m.SettingsPageModule),
   },
   {
     path: 'writein-popup',
-    loadChildren: () => import('./writein-modal/writein-modal.module').then((m) => m.WriteinModalPageModule),
+    loadChildren: () => import('./modals/write-in/write-in.module').then((m) => m.WriteInPageModule),
   },
 ];
 

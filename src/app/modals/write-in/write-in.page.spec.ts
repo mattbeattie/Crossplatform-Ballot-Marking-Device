@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SelectedTooManyModalPage } from './selected-too-many-modal.page';
+import { WriteInPage } from './write-in.page';
 
-describe('SelectedTooManyModalPage', () => {
-  let component: SelectedTooManyModalPage;
-  let fixture: ComponentFixture<SelectedTooManyModalPage>;
+describe('WriteInPage', () => {
+  let component: WriteInPage;
+  let fixture: ComponentFixture<WriteInPage>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [SelectedTooManyModalPage],
+        declarations: [WriteInPage],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SelectedTooManyModalPage);
+      fixture = TestBed.createComponent(WriteInPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })

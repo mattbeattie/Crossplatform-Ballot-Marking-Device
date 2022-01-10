@@ -11,7 +11,7 @@ import { VoteReviewPage } from './vote-review.page';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'page-vote-review',
+  selector: 'app-vote-review',
   templateUrl: 'vote-review.page.html',
 })
 @NgModule({

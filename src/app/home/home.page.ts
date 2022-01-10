@@ -4,9 +4,9 @@ import { IonSlides } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
-import { VoteReviewPage } from '../vote-review/vote-review.page';
-import { SettingsModalPage } from '../modals/settings-modal/settings-modal.page';
-import { WriteinModalPage } from '../writein-modal/writein-modal.page';
+import { VoteReviewPage } from '../modals/vote-review/vote-review.page';
+import { SettingsPage } from '../modals/settings/settings.page';
+import { WriteInPage } from '../modals/write-in/write-in.page';
 
 import { ElectionFileFetcherService } from '../services/election-model-fetcher.service';
 import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
@@ -79,7 +79,7 @@ export class HomePage implements OnInit {
     const componentProps = {
       currentElectionFile: this.currentElectionFile,
     };
-    const modal = await this.modalController.create({ component: SettingsModalPage, componentProps });
+    const modal = await this.modalController.create({ component: SettingsPage, componentProps });
     await modal.present();
     modal.onDidDismiss().then((response) => {
       const newElectionFile = response.data;
@@ -119,7 +119,7 @@ export class HomePage implements OnInit {
         body: 'write-in election review goes here',
         writeinName: candidate.personName,
       };
-      const modal = await this.modalController.create({ component: WriteinModalPage, componentProps });
+      const modal = await this.modalController.create({ component: WriteInPage, componentProps });
       await modal.present();
       modal.onDidDismiss().then((data) => {
         // todo: what is data? what is.... data.data? can we use better variable names here?

@@ -6,15 +6,15 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicModule } from '@ionic/angular';
 
-import { SelectedTooManyModalPageRoutingModule } from './selected-too-many-modal-routing.module';
-import { SelectedTooManyModalPage } from './selected-too-many-modal.page';
+import { SelectedTooManyPageRoutingModule } from './selected-too-many-routing.module';
+import { SelectedTooManyPage } from './selected-too-many.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SelectedTooManyModalPageRoutingModule,
+    SelectedTooManyPageRoutingModule,
     HttpClientModule,
     TranslateModule.forChild({
       loader: {
@@ -24,6 +24,6 @@ import { SelectedTooManyModalPage } from './selected-too-many-modal.page';
       },
     }),
   ],
-  declarations: [SelectedTooManyModalPage],
+  declarations: [SelectedTooManyPage],
 })
-export class SelectedTooManyModalPageModule {}
+export class SelectedTooManyPageModule {}
