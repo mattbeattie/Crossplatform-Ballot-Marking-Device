@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { ElectionFileFetcherService } from './election-model-fetcher.service';
+import { ElectionFileFetcherService } from './election-file-fetcher.service';
 
 describe('ElectionFileFetcherService', () => {
   let service: ElectionFileFetcherService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
     service = TestBed.inject(ElectionFileFetcherService);
   });
 

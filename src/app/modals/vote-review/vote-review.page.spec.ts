@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { VoteReviewPage } from './vote-review.page';
 
@@ -11,7 +12,7 @@ describe('VoteReviewPage', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [VoteReviewPage],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       }).compileComponents();
 
       fixture = TestBed.createComponent(VoteReviewPage);

@@ -8,7 +8,7 @@ import { VoteReviewPage } from '../modals/vote-review/vote-review.page';
 import { SettingsPage } from '../modals/settings/settings.page';
 import { WriteInPage } from '../modals/write-in/write-in.page';
 
-import { ElectionFileFetcherService } from '../services/election-model-fetcher.service';
+import { ElectionFileFetcherService } from '../services/election-file-fetcher.service';
 import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
 
 @Component({
