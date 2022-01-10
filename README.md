@@ -73,9 +73,7 @@ Information regarding the quality checks and how they're enforced in CI can be f
 
 ## Building Native Binaries
 
-```
-todo: need to determine the steps and write them here
-```
+> todo: add instructions here
 
 ## Development Workflow
 
