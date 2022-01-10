@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'modal-popup',
+    path: 'selected-too-many',
     loadChildren: () => import('./modals/selected-too-many/selected-too-many.module').then((m) => m.SelectedTooManyPageModule),
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./modals/settings/settings.module').then((m) => m.SettingsPageModule),
   },
   {
-    path: 'writein-popup',
+    path: 'write-in',
     loadChildren: () => import('./modals/write-in/write-in.module').then((m) => m.WriteInPageModule),
   },
 ];

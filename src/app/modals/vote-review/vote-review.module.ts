@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -9,11 +8,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { VoteReviewPageRoutingModule } from './vote-review-routing.module';
 import { VoteReviewPage } from './vote-review.page';
 
-@Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-vote-review',
-  templateUrl: 'vote-review.page.html',
-})
 @NgModule({
   imports: [
     CommonModule,
@@ -29,5 +23,4 @@ import { VoteReviewPage } from './vote-review.page';
   ],
   declarations: [VoteReviewPage],
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class VoteReviewPageModule {}

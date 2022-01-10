@@ -1,8 +1,6 @@
 import { ViewChild, Component, Input } from '@angular/core';
 import { ModalController, IonContent } from '@ionic/angular';
 
-import { CvrGeneratorService } from '../../services/cvr-generator.service';
-
 @Component({
   selector: 'app-vote-review',
   templateUrl: 'vote-review.page.html',
@@ -12,7 +10,7 @@ export class VoteReviewPage {
   @ViewChild(IonContent, { static: false }) content: IonContent;
   @Input() public scrollToContest: number;
 
-  constructor(private readonly modalController: ModalController, private readonly cvrGeneratorService: CvrGeneratorService) {}
+  constructor(private readonly modalController: ModalController) {}
 
   ionViewDidEnter() {
     this.maybeScrollToContest();
