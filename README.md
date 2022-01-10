@@ -8,8 +8,6 @@
 - [Building Native Binaries](#building-native-binaries)
 - [Development Workflow](#development-workflow)
 - [Todos](#todos)
-  - [Immediate todos](#immediate-todos)
-  - [Later todo](#later-todo)
 
 The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application.
 
