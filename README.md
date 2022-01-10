@@ -2,7 +2,7 @@
 
 - [Application Architecture](#application-architecture)
   - [Application parts and filesystem structure](#application-parts-and-filesystem-structure)
-  - [Adding a new "type" of contest](#adding-a-new-type-of-contest)
+  - [Adding a new type of contest](#adding-a-new-type-of-contest)
 - [Running the Application](#running-the-application)
 - [Ensuring Quality in the Application](#ensuring-quality-in-the-application)
 - [Building Native Binaries](#building-native-binaries)
@@ -35,14 +35,14 @@ Modals live in `src/app/modals/`, and are responsible for launching a modal view
 
 Services live in `src/app/services/`, and are each responsible for single task. Complex business logic should generally not live in any of the aforementioned application parts, and so therefore are handled at the service layer. At this time nothing from the components or modals use anything from the service layer; however, if these application parts find themselves doing something similar or even identical, that logic should be moved to the service layer accordingly.
 
-### Adding a new "type" of contest
+### Adding a new type of contest
 
 If you're adding a new type of contest, you'll need to do the following:
 
 1. Update the election modal constructor service to parse out the new contest type from the election data file, updating and adding to the interfaces as necessary
-2. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `contest-components` directory
+2. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `src/app/components/` directory in its own folder like the others
 3. Update `home.module.ts`, adding the new component to the `entryComponents` and `declarations` array
-4. Update `home.page.html`, adding a conditional for the new contest type which loads the new component and passes in the contest object accordingly
+4. Update `home.page.html`, adding a conditional for the new contest type, which loads the new component and passes in the contest object accordingly
 5. Build the necessary template and logic for the new contest into that contest's component
 
 ## Running the Application
