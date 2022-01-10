@@ -11,7 +11,7 @@
   - [Immediate todos](#immediate-todos)
   - [Later todo](#later-todo)
 
-The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application
+The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application.
 
 ## Application Architecture
 
