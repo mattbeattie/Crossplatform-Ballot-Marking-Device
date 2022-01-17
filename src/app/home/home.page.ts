@@ -116,10 +116,8 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
-  // MODAL LAUNCHERS THAT STILL NEED WORK
-
+  // todo: fix and implement
   async maybeOpenWriteInModal(candidate: any): Promise<void> {
-    // todo: figure out how to do this now
     if (candidate.isWriteIn()) {
       const componentProps = {
         title: 'Write-In Candidate',
@@ -128,13 +126,9 @@ export class HomePage implements OnInit {
       };
       const modal = await this.modalController.create({ component: WriteInPage, componentProps });
       await modal.present();
-      modal.onDidDismiss().then((data) => {
-        // todo: what is data? what is.... data.data? can we use better variable names here?
-        if (data.data.trim().length > 0) {
-          candidate.personName = data.data;
-        } else {
-          candidate.personName = candidate.writeInConst;
-        }
+      modal.onDidDismiss().then((response) => {
+        console.log('🚀 ~ file: home.page.ts ~ line 130 ~ HomePage ~ modal.onDidDismiss ~ response', response);
+        // todo: implement
       });
     }
   }

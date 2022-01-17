@@ -7,9 +7,11 @@
     <ion-label float="left" slot="start">{{ 'VOTE_FOR' | translate }}</ion-label>
     <ion-label>{{ contest.allowedVotes }} </ion-label>
     <br />
-    <ion-label float="right" slot="end">{{ 'YOU_CAN_CHOOSE' | translate }}</ion-label>
-    <ion-label color="danger" slot="end">{{ getRemainingCandidateVotes(contest) }}</ion-label>
-    <ion-label slot="end">{{ 'MORE' | translate }}</ion-label>
+    <div *ngIf="getRemainingCandidateVotes(contest) > 0">
+      <ion-label float="right" slot="end">{{ 'YOU_CAN_CHOOSE' | translate }}</ion-label>
+      <ion-label color="danger" slot="end">{{ getRemainingCandidateVotes(contest) }}</ion-label>
+      <ion-label slot="end">{{ 'MORE' | translate }}</ion-label>
+    </div>
     <br />
     <br />
     <div class="center-button">
