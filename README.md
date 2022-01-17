@@ -99,7 +99,7 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 - Get vote review and present one contest modals working
 - CVR generation
 - Create a help modal and mention it in the "improved" section, add instructions for creating modals in general
-- Get write-ins working
+- Get write-ins working, note that this should be for candidate contests only
 - Figure out why some EDFs fail to load
 
 ### Things which were always an issue
@@ -108,6 +108,8 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 - Update compromised packages per GitHub's recommendations
 - Add tests for everything
 
-### Things that were improved as part of the re-write
+### Bugs that that were fixed as part of the re-write
 
+- Vote review modal now has a title bar
+- Uses properly translated text instead of keys wherever possible
 - Making too many selections now unselects the "over the limit" selection, rather than leaving the user in a noncompliant state

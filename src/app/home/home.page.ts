@@ -82,16 +82,10 @@ export class HomePage implements OnInit {
     const modal = await this.modalController.create({ component: SettingsPage, componentProps });
     await modal.present();
     modal.onDidDismiss().then((response) => {
-      try {
-        const newElectionFile = response.data.selectedElectionFile;
-        if (this.currentElectionFile !== newElectionFile) {
-          this.currentElectionFile = newElectionFile;
-          this.fetchAndLoadElection(newElectionFile);
-        }
-      } catch (e) {
-        // in the event the user clicks out of the modal, it will close without any data being passed back
-        // when this happens, we can safely log and ignore the error
-        console.log(`Encountered the following error on settings modal close (this will happen if the user clicks out of the modal): ${e}`);
+      const newElectionFile = response.data?.selectedElectionFile;
+      if (newElectionFile && this.currentElectionFile !== newElectionFile) {
+        this.currentElectionFile = newElectionFile;
+        this.fetchAndLoadElection(newElectionFile);
       }
     });
   }

@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-nav>
+  <ion-toolbar>
     <ion-title>{{ 'VOTE_REVIEW' | translate }}</ion-title>
-  </ion-nav>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
@@ -30,7 +30,7 @@
     </ion-item>
   </ion-card>
   <div class="center-button">
-    <ion-button class="extra-padding" (click)="closeModal()" translate>CLOSE</ion-button>
-    <ion-button color="danger" (click)="closeModalCastBallot()" translate>CAST_BALLOT</ion-button>
+    <ion-button class="extra-padding" (click)="closeModal(false)">{{ 'CLOSE' | translate }}</ion-button>
+    <ion-button color="danger" (click)="closeModal(true)">{{ 'CAST_BALLOT' | translate }}</ion-button>
   </div>
 </ion-content>

@@ -28,18 +28,13 @@ export class VoteReviewPage {
     }
   }
 
-  async closeModal() {
-    await this.modalController.dismiss();
-  }
-
-  async closeModalCastBallot() {
-    await this.modalController.dismiss();
-    // this.cvrGeneratorService.createCVR(this.home.election);
+  async closeModal(shouldCastBallot: boolean) {
+    await this.modalController.dismiss({ shouldCastBallot });
   }
 
   async oneVoteReview(contestNum: number): Promise<void> {
     console.log('🚀 ~ file: vote-review.page.ts ~ line 45 ~ VoteReviewPage ~ oneVoteReview ~ contestNum', contestNum);
-    this.closeModal();
+    this.closeModal(false);
     // const oneContestPopupContent = { contest: this.election.getContestByIndex(contestNum), contestNum, home: this.home };
     // const oneContestModal = await this.modalController.create({
     //   component: PresentOneContestPage,
