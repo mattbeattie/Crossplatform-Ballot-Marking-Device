@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
 import { HelpPage } from './help.page';
@@ -11,7 +12,7 @@ describe('HelpPage', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [HelpPage],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       }).compileComponents();
 
       fixture = TestBed.createComponent(HelpPage);

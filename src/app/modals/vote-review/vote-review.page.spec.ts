@@ -17,6 +17,7 @@ describe('VoteReviewPage', () => {
 
       fixture = TestBed.createComponent(VoteReviewPage);
       component = fixture.componentInstance;
+      component.election = { contests: [] } as any;
       fixture.detectChanges();
     })
   );
