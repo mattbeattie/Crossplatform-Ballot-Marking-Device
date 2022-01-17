@@ -45,7 +45,7 @@ Each contest will use the same root `Contest` type. Where the contests diverge i
 
 So if you're adding a new contest type "Sandwiches", create a new `SandwichBallotSelection` interface and add it to the list of allowed ballot selections in the `Contest`'s `ballotSelection`. The new `SandwichBallotSelection` interface should have a single property `sandwiches` which is an array of `Sandwich[]` interfaces. The new `Sandwich` interface will contain all the properties relevant to sandwiches.
 
-#### Steps to creating a new contest component
+#### Steps to create a new contest component
 
 1. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `src/app/components/` directory in its own folder like the others
 2. Update `home.module.ts` and `vote-review.module.ts`, adding the new component to the `entryComponents` and `declarations` array. This allows those pages to render the new component.
