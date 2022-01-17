@@ -90,26 +90,25 @@ export class HomePage implements OnInit {
     });
   }
 
-  // MODAL LAUNCHERS THAT STILL NEED WORK
-
+  /**
+   * Opens the view review modal, which allows the user to review their votes and optionally submit them
+   */
   async openVoteReviewModal(): Promise<void> {
     const componentProps = {
-      scrollToContest: 0,
       election: this.election,
     };
     const modal = await this.modalController.create({ component: VoteReviewPage, componentProps });
     await modal.present();
+    modal.onDidDismiss().then((response) => {
+      const shouldCastBallot = response.data?.shouldCastBallot;
+      if (shouldCastBallot) {
+        // todo: implement
+        console.log('ballot casting time!');
+      }
+    });
   }
 
-  // thy do we have two vote review modals?
-  async voteReviewSpecificContest(contestNumber: number): Promise<void> {
-    const componentProps = {
-      scrollToContest: contestNumber,
-      election: this.election,
-    };
-    const modal = await this.modalController.create({ component: VoteReviewPage, componentProps });
-    await modal.present();
-  }
+  // MODAL LAUNCHERS THAT STILL NEED WORK
 
   async maybeOpenWriteInModal(candidate: any): Promise<void> {
     // todo: figure out how to do this now

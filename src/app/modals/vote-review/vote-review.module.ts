@@ -7,6 +7,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { VoteReviewPageRoutingModule } from './vote-review-routing.module';
 import { VoteReviewPage } from './vote-review.page';
+import { CandidateContestComponent } from '../../components/candidate-contest/candidate-contest.component';
+import { BallotMeasureContestComponent } from '../../components/ballot-measure-contest/ballot-measure-contest.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { VoteReviewPage } from './vote-review.page';
       },
     }),
   ],
-  declarations: [VoteReviewPage],
+  entryComponents: [CandidateContestComponent, BallotMeasureContestComponent],
+  declarations: [VoteReviewPage, CandidateContestComponent, BallotMeasureContestComponent],
 })
 export class VoteReviewPageModule {}

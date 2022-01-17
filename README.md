@@ -36,13 +36,43 @@ Services live in `src/app/services/`, and are each responsible for single task. 
 
 ### Adding a new type of contest
 
-If you're adding a new type of contest, you'll need to do the following:
+#### Prerequisites: update the election model
 
-1. Update the election modal constructor service to parse out the new contest type from the election data file, updating and adding to the interfaces as necessary
-2. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `src/app/components/` directory in its own folder like the others
-3. Update `home.module.ts`, adding the new component to the `entryComponents` and `declarations` array
-4. Update `home.page.html`, adding an `*ngIf` conditional for the new contest type, which loads the new component and passes in the contest object accordingly (_tip: launch the application with some boilerplate text just to make sure it loads as expected for the given contest type_)
+If you're adding a new type of contest, you'll first need to update the election modal constructor service to parse out the new contest type from the election data file. As part of this process, you'll need to update and add to the interfaces accordingly.
+
+Each contest will use the same root `Contest` type. Where the contests diverge is the `Contest`'s `ballotSelection` property: each different contest type has its own
+"Ballot selection" interface, which the contest's view and business logic will iterate over when displaying options to the user.
+
+So if you're adding a new contest type "Sandwiches", create a new `SandwichBallotSelection` interface and add it to the list of allowed ballot selections in the `Contest`'s `ballotSelection`. The new `SandwichBallotSelection` interface should have a single property `sandwiches` which is an array of `Sandwich[]` interfaces. The new `Sandwich` interface will contain all the properties relevant to sandwiches.
+
+#### Steps to creating a new contest component
+
+1. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `src/app/components/` directory in its own folder like the others
+2. Update `home.module.ts` and `vote-review.module.ts`, adding the new component to the `entryComponents` and `declarations` array
+3. Update `home.page.html`, adding an `*ngIf` conditional for the new contest type, which loads the new component and passes in the contest object accordingly (_tip: launch the application with some boilerplate text just to make sure it loads as expected for the given contest type_)
+4. Update `vote-review.page.html`, adding an `*ngIf` conditional for the new contest type, which loads the new component and passes in the contest object and `launchInVoteReviewMode` (described below) accordingly
 5. Build the necessary template and logic for the new contest into that contest's new component
+
+#### Handling both "selection" mode and "vote review" mode
+
+Note that each contest will be rendered from exactly two locations:
+
+- The "Home" Page, where the user is allowed to make selections
+- The "Vote Review" Modal, where the contest is displayed in "read-only" mode
+
+In order to meet both needs while also ensuring each contest's view and business logic are encapsulated in the same component, each contest component must have the following input:
+
+```typescript
+  @Input() launchInVoteReviewMode: boolean;
+```
+
+The HTML template must have two top-level divs: one for the "full selection" mode and one for "vote review" mode:
+
+```html
+<div *ngIf="!launchInVoteReviewMode">Implement full selection display logic here</div>
+
+<div *ngIf="launchInVoteReviewMode">Implement vote review display logic here</div>
+```
 
 ### Adding a new modal
 
@@ -96,7 +126,6 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 
 ### Things I need to do as part of the re-write
 
-- Get vote review and present one contest modals working
 - CVR generation
 - Create a help modal and mention it in the "improved" section, add instructions for creating modals in general
 - Get write-ins working, note that this should be for candidate contests only

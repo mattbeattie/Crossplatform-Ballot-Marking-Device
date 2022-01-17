@@ -5,29 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-card id="voteReviewContest#{{i}}" *ngFor="let item of election.contests; let i=index" (click)="oneVoteReview(i)">
-    {{item.contestName}}
+  <ion-card *ngFor="let contest of election.contests">
     <ion-list no-line>
-      <div *ngFor="let ballotSelection of item.ballotSelections">
-        <div *ngFor="let candidateName of ballotSelection.candidates">
-          <ion-row no-line>
-            <ion-item text-wrap no-line item-start *ngIf="ballotSelection.selected">
-              <!-- <ion-checkbox (ionChange)="item.ionChangeUpdateCheckbox($event)" (click)="item.updateCheckbox($event)"></ion-checkbox> -->
-              <!-- (ionChange)="item.ionChangeIgnoreCheckbox($event)" -->
-              <ion-checkbox (click)="oneVoteReview(i)" checked="true" disabled="true"></ion-checkbox>
-              <ion-label no-line>{{candidateName.personName}} {{candidateName.partyAbbreviation}}</ion-label>
-            </ion-item>
-          </ion-row>
-        </div>
+      <div *ngIf="contest.type === 'CandidateContest'">
+        <app-candidate-contest [contest]="contest" [launchInVoteReviewMode]="launchInVoteReviewMode"></app-candidate-contest>
+      </div>
+      <div *ngIf="contest.type === 'BallotMeasureContest'">
+        <app-ballot-measure-contest [contest]="contest" [launchInVoteReviewMode]="launchInVoteReviewMode"></app-ballot-measure-contest>
       </div>
     </ion-list>
-    <ion-item color="warning" text-wrap *ngIf="item.getVotesLeft() === item.getVotesAllowed()">
-      You did not vote for anyone. If you want to vote, touch here.
-    </ion-item>
-    <ion-item color="warning" text-wrap *ngIf="item.getVotesLeft() > 0 && item.getCurrentlySelected() > 0">
-      You voted for {{item.currentlySelected}} person(s). You can vote for {{item.getVotesLeft()}} more. If you want to vote for more, touch
-      here.
-    </ion-item>
   </ion-card>
   <div class="center-button">
     <ion-button class="extra-padding" (click)="closeModal(false)">{{ 'CLOSE' | translate }}</ion-button>

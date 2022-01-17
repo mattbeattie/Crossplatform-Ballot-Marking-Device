@@ -11,6 +11,7 @@ import { Contest, CandidateBallotSelection, Candidate } from '../../services/ele
 })
 export class CandidateContestComponent implements OnInit {
   @Input() contest: Contest;
+  @Input() launchInVoteReviewMode: boolean;
 
   constructor(private readonly modalController: ModalController) {}
 

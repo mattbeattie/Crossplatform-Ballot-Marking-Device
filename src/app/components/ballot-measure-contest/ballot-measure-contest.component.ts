@@ -9,6 +9,7 @@ import { Contest } from '../../services/election-model-constructor.service';
 })
 export class BallotMeasureContestComponent implements OnInit {
   @Input() contest: Contest;
+  @Input() launchInVoteReviewMode: boolean;
 
   constructor() {}
 
