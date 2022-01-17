@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./modals/vote-review/vote-review.module').then((m) => m.VoteReviewPageModule),
   },
   {
-    path: 'present-one-contest',
-    loadChildren: () => import('./modals/present-one-contest/present-one-contest.module').then((m) => m.PresentOneContestPageModule),
-  },
-  {
     path: 'settings',
     loadChildren: () => import('./modals/settings/settings.module').then((m) => m.SettingsPageModule),
   },
