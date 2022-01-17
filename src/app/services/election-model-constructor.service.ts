@@ -6,6 +6,7 @@ export enum ContestType {
 }
 
 export interface Election {
+  name: string;
   contests: Contest[];
 }
 
@@ -29,12 +30,8 @@ export interface Candidate {
 }
 
 export interface BallotMeasureBallotSelection {
-  ballotMeasures: BallotMeasure[];
-}
-
-export interface BallotMeasure {
   id: string;
-  sequenceOrder: number;
+  isSelected: boolean;
 }
 
 @Injectable({
@@ -82,7 +79,13 @@ export class ElectionModelConstructorService {
       throw new Error(`Found ${electionReport.partyCollection[0].party.length} parties, expected at least 1`);
     }
 
+    const name = electionReport.election[0].name[0].text[0].characters;
+    if (!name) {
+      throw new Error(`Could not find the election name`);
+    }
+
     const election: Election = {
+      name,
       contests: this.getContests(electionReport),
     };
     return election;
@@ -152,10 +155,14 @@ export class ElectionModelConstructorService {
    */
   private getBallotMeasureBallotSelections(electionReport: any, contestResponse: any): BallotMeasureBallotSelection[] {
     return contestResponse.ballotSelection.map((ballotSelectionResponse: any) => {
-      // eslint-disable-next-line unused-imports/no-unused-vars
       const ballotMeasureId = ballotSelectionResponse.attributes.objectId;
       // todo: determine how to get some text-based information given the ballot measure ID, remove the eslint-disable once that's working
       // initial inspection of the bmsXXXXX IDs in the election definition file didn't match any text describing the measureß
+      // for now, we'll just return some placeholder info so that the model will be structurally complete
+      return {
+        id: ballotMeasureId,
+        isSelected: false,
+      };
     });
   }
 

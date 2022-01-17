@@ -36,14 +36,15 @@ Services live in `src/app/services/`, and are each responsible for single task. 
 
 ### Adding a new type of contest
 
-#### Prerequisite: update the election model
+#### Prerequisite: update the election model and CVR generation logic
 
-If you're adding a new type of contest, you'll first need to update the election model constructor service to parse out the new contest type from the election data file. As part of this process, you'll need to update and add to the interfaces accordingly.
+First, you'll first need to update the election model constructor service to parse out the new contest type from the election data file. As part of this process, you'll need to update and add to the interfaces accordingly.
 
-Each contest will use the same root `Contest` type. Where the contests diverge is the `Contest`'s `ballotSelection` property: each contest type has its own
-"Ballot selection" interface, which the contest's view and business logic will iterate over when displaying options to the user.
+Each contest will use the same root `Contest` type. Where the contests diverge is the `Contest`'s `ballotSelection` property: each contest type has its own "ballot selection" interface, which the contest's view and business logic will iterate over when displaying options to the user.
 
-So if you're adding a new contest type "Sandwiches", create a new `SandwichBallotSelection` interface and add it to the list of allowed ballot selections in the `Contest`'s `ballotSelection`. The new `SandwichBallotSelection` interface should have a single property `sandwiches` which is an array of `Sandwich[]` interfaces. The new `Sandwich` interface will contain all the properties relevant to sandwiches.
+So if you're adding a new contest type "Sandwiches", create a new `SandwichBallotSelection` interface and add it to the list of allowed ballot selections in the `Contest`'s `ballotSelection`. The new `SandwichBallotSelection` interface will contain all the properties relevant to sandwiches.
+
+Second, you'll need to update the CVR generation logic to account for the new contest type. Ideally this should be fairly straightforward to implement given the election model changes you just implemented. Simply make the necessary model changes to the `CastVoteRecord` interface and update the logic accordingly.
 
 #### Steps to create a new contest component
 
@@ -166,15 +167,19 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 
 ## Todos
 
-### Things I need to do as part of the re-write
-
-- CVR generation
-- Get write-ins working, note that this should be for candidate contests only
 - Figure out why some EDFs fail to load
+
+### Immediate next steps
+
+- Figure out how multiple candidates on a single ballot measure for a candidate-type contest should be handled, and update logic accordingly
+- Figure out what the CVR model should look like for candidate-type contests, and implement accordingly
+- Figure out how ballot measures should be handled, and implement accordingly
+- Figure out how write-ins should work (are these for candidate-type contests only?), and implement accordingly
+- Figure out what the application should do upon "casting vote" (other than generating the CVR)
 
 ### Things which were always an issue
 
-- Figure out how to do the native builds and add documentation for it
+- Add documentation for how to handle native builds
 - Update compromised packages per GitHub's recommendations
 - Add tests for everything
 

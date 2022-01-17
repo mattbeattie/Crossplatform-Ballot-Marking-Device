@@ -6,9 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ElectionFileFetcherService } from '../services/election-file-fetcher.service';
 import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
+import { CastVoteRecord, CastVoteRecordGeneratorService } from '../services/cast-vote-record-generator.service';
 import { VoteReviewPage } from '../modals/vote-review/vote-review.page';
 import { SettingsPage } from '../modals/settings/settings.page';
-import { WriteInPage } from '../modals/write-in/write-in.page';
 import { HelpPage } from '../modals/help/help.page';
 
 @Component({
@@ -33,7 +33,8 @@ export class HomePage implements OnInit {
     private readonly modalController: ModalController,
     private readonly translate: TranslateService,
     private readonly electionFileFetcherService: ElectionFileFetcherService,
-    private readonly electionModelConstructorService: ElectionModelConstructorService
+    private readonly electionModelConstructorService: ElectionModelConstructorService,
+    private readonly castVoteRecordGeneratorService: CastVoteRecordGeneratorService
   ) {
     SplashScreen.show({
       showDuration: 2000,
@@ -91,7 +92,7 @@ export class HomePage implements OnInit {
   }
 
   /**
-   * Opens the view review modal, which allows the user to review their votes and optionally submit them
+   * Opens the vote review modal, which allows the user to review their votes and optionally submit
    */
   async openVoteReviewModal(): Promise<void> {
     const componentProps = {
@@ -102,8 +103,10 @@ export class HomePage implements OnInit {
     modal.onDidDismiss().then((response) => {
       const shouldCastBallot = response.data?.shouldCastBallot;
       if (shouldCastBallot) {
-        // todo: implement
-        console.log('ballot casting time!');
+        // todo: Bret's initial implementation simply console.logged the CVR value out
+        // we should revisit this to see what the requirements are and implement them accordingly
+        const castVoteRecord: CastVoteRecord = this.castVoteRecordGeneratorService.createCVR(this.election);
+        console.log(castVoteRecord);
       }
     });
   }
