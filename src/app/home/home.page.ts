@@ -4,12 +4,12 @@ import { IonSlides } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
+import { ElectionFileFetcherService } from '../services/election-file-fetcher.service';
+import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
 import { VoteReviewPage } from '../modals/vote-review/vote-review.page';
 import { SettingsPage } from '../modals/settings/settings.page';
 import { WriteInPage } from '../modals/write-in/write-in.page';
-
-import { ElectionFileFetcherService } from '../services/election-file-fetcher.service';
-import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
+import { HelpPage } from '../modals/help/help.page';
 
 @Component({
   selector: 'app-home',
@@ -106,6 +106,14 @@ export class HomePage implements OnInit {
         console.log('ballot casting time!');
       }
     });
+  }
+
+  /**
+   * Opens the help modal
+   */
+  async openHelpModal(): Promise<void> {
+    const modal = await this.modalController.create({ component: HelpPage });
+    await modal.present();
   }
 
   // MODAL LAUNCHERS THAT STILL NEED WORK

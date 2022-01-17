@@ -78,7 +78,47 @@ In thise way, each contest component can be rendered in either "selection" or "v
 
 ### Adding a new modal
 
-> todo: write some docs for this
+#### Basic steps
+
+Creating a new modal and calling it from an existing page is easy. Follow the below steps:
+
+1. Create a new page for the modal (`npx ng generate page bar`) and move it into the `src/app/modals/` directory in its own folder like the others (make sure to update the import path in `app-routing.module.ts` accordingly)
+2. From wherever you need to launch the modal (e.g., the "Home" page), create a new `openBarModal` function which uses `this.modalController.create` to open the new modal
+3. In the corresponding HTML template, add a new icon for it with a click handler that calls the opener function you just created
+
+#### Optional: allowing translations
+
+If you need to handle translations in your modal, open the new modal's module file, and add the following the the `imports`:
+
+```typescript
+TranslateModule.forChild({
+  loader: {
+    provide: TranslateLoader,
+    useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json'),
+    deps: [HttpClient],
+  },
+}),
+```
+
+#### Optional: passing data from the modal back to the caller
+
+If you need to pass data from the modal back to the caller, always send it as an object so that the caller can pluck the property it wants from the response object. Additionally, you'll need to add some error handling to account for the case where the property may not exist. Here's an example:
+
+```typescript
+async openFooModal(): Promise<void> {
+  const componentProps = {
+    bar: 'example data',
+  };
+  const modal = await this.modalController.create({ component: FooPage, componentProps });
+  await modal.present();
+  modal.onDidDismiss().then((response) => {
+    const interestingDataPoint = response.data?.interestingDataPoint;
+    if (interestingDataPoint) {
+      // todo: implement some desired logic based on the value of interestingDataPoint
+    }
+  });
+}
+```
 
 ## Running the Application
 
@@ -129,7 +169,6 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 ### Things I need to do as part of the re-write
 
 - CVR generation
-- Create a help modal and mention it in the "improved" section, add instructions for creating modals in general
 - Get write-ins working, note that this should be for candidate contests only
 - Figure out why some EDFs fail to load
 
@@ -142,5 +181,6 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 ### Bugs that that were fixed as part of the re-write
 
 - Vote review modal now has a title bar
+- A help modal now exists with some boilerplate text
 - Uses properly translated text instead of keys wherever possible
 - Making too many selections now unselects the "over the limit" selection, rather than leaving the user in a noncompliant state

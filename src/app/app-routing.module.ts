@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'write-in',
     loadChildren: () => import('./modals/write-in/write-in.module').then((m) => m.WriteInPageModule),
   },
+  {
+    path: 'help',
+    loadChildren: () => import('./modals/help/help.module').then((m) => m.HelpPageModule),
+  },
 ];
 
 @NgModule({

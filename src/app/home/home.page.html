@@ -1,13 +1,12 @@
 <ion-header *ngIf="electionIsLoaded">
   <ion-toolbar>
     <div class="center-button">
-      <ion-button outline (click)="openSettingsModal($event)" translate> <ion-icon name="cog-outline"></ion-icon>SETTINGS</ion-button>
-      <!-- todo: help() doesn't exist? need to figure this out -->
-      <ion-button outline (click)="help($event)" translate>
+      <ion-button outline (click)="openSettingsModal()" translate> <ion-icon name="cog-outline"> </ion-icon>SETTINGS</ion-button>
+      <ion-button outline (click)="openHelpModal()" translate>
         <ion-icon name="help-outline"></ion-icon>
         HELP
       </ion-button>
-      <ion-button outline (click)="openVoteReviewModal($event)" translate>REVIEW_YOUR_VOTES</ion-button>
+      <ion-button outline (click)="openVoteReviewModal()" translate>REVIEW_YOUR_VOTES</ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
