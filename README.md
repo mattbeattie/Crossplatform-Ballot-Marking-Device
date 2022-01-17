@@ -94,17 +94,20 @@ For guidance on what to do if the quality checks fail, see the [corresponding se
 
 ## Todos
 
-### Immediate todos
+### Things I need to do as part of the re-write
 
-- Get vote review and present one contest modals working, and then move them into the modals directory
+- Get vote review and present one contest modals working
 - CVR generation
+- Create a help modal and mention it in the "improved" section, add instructions for creating modals in general
 - Get write-ins working
-
-### Later todo
-
 - Figure out why some EDFs fail to load
+
+### Things which were always an issue
+
 - Figure out how to do the native builds and add documentation for it
-- Figure out what needs to be displayed for ballot markup option
+- Update compromised packages per GitHub's recommendations
 - Add tests for everything
-- Update compromised packages per GitHub's recommendation
-- Remove this section
+
+### Things that were improved as part of the re-write
+
+- Making too many selections now unselects the "over the limit" selection, rather than leaving the user in a noncompliant state

@@ -29,7 +29,7 @@ export class SettingsPage implements OnInit {
    */
   async closeModal() {
     const selectedElectionFile = `/assets/data/${this.selectedElectionFileName}`;
-    await this.modalController.dismiss(selectedElectionFile);
+    await this.modalController.dismiss({ selectedElectionFile });
   }
 
   /**
