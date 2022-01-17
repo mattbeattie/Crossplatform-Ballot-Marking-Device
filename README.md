@@ -8,7 +8,6 @@
 - [Ensuring Quality in the Application](#ensuring-quality-in-the-application)
 - [Building Native Binaries](#building-native-binaries)
 - [Development Workflow](#development-workflow)
-- [Todos](#todos)
 
 The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application.
 
@@ -164,27 +163,3 @@ To ensure a standardized development workflow, all new changes should be added a
 When merging, the "squash and merge" strategy is used, which ensures all commits in the feature branch have been squashed to a single commit. This keeps the main branch's commit logs clean and readable.
 
 For guidance on what to do if the quality checks fail, see the [corresponding section in the Quality Checks](./QUALITY_CHECKS.md#what-to-do-when-your-pr-shows-a-failing-status-check) page.
-
-## Todos
-
-- Figure out why some EDFs fail to load
-
-### Immediate next steps
-
-- Figure out how multiple candidates on a single ballot measure for a candidate-type contest should be handled, and update logic accordingly
-- Figure out what the CVR model should look like for candidate-type contests, and implement accordingly
-- Figure out how ballot measures should be handled, and implement accordingly
-- Figure out how write-ins should work (are these for candidate-type contests only?), and implement accordingly
-- Figure out what the application should do upon "casting vote" (other than generating the CVR)
-
-### Things which were always an issue
-
-- Add documentation for how to handle native builds
-- Update compromised packages per GitHub's recommendations
-- Add tests for everything
-
-### Bugs that that were fixed as part of the re-write
-
-- Vote review modal now has a title bar
-- A help modal now exists with some boilerplate text
-- Uses properly translated text instead of keys wherever possible

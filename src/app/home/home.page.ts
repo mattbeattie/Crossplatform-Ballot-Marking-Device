@@ -119,23 +119,6 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
-  // todo: fix and implement
-  async maybeOpenWriteInModal(candidate: any): Promise<void> {
-    if (candidate.isWriteIn()) {
-      const componentProps = {
-        title: 'Write-In Candidate',
-        body: 'write-in election review goes here',
-        writeinName: candidate.personName,
-      };
-      const modal = await this.modalController.create({ component: WriteInPage, componentProps });
-      await modal.present();
-      modal.onDidDismiss().then((response) => {
-        console.log('🚀 ~ file: home.page.ts ~ line 130 ~ HomePage ~ modal.onDidDismiss ~ response', response);
-        // todo: implement
-      });
-    }
-  }
-
   // PRIVATE METHODS
 
   /**

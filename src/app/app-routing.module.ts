@@ -24,10 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./modals/settings/settings.module').then((m) => m.SettingsPageModule),
   },
   {
-    path: 'write-in',
-    loadChildren: () => import('./modals/write-in/write-in.module').then((m) => m.WriteInPageModule),
-  },
-  {
     path: 'help',
     loadChildren: () => import('./modals/help/help.module').then((m) => m.HelpPageModule),
   },
