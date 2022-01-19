@@ -1,16 +1,15 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ModalController } from '@ionic/angular';
 import { IonSlides } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ModalPopupPage } from '../modal-popup/modal-popup.page';
-import { VoteReviewPage } from '../vote-review/vote-review.page';
-import { SettingsPage } from '../settings/settings.page';
-import { Candidate } from '../../classes/Candidate';
-import { Election } from '../../classes/Election';
-import { WriteinPopupPage } from '../writein-popup/writein-popup.page';
+import { ElectionFileFetcherService } from '../services/election-file-fetcher.service';
+import { ElectionModelConstructorService, Election } from '../services/election-model-constructor.service';
+import { CastVoteRecord, CastVoteRecordGeneratorService } from '../services/cast-vote-record-generator.service';
+import { VoteReviewPage } from '../modals/vote-review/vote-review.page';
+import { SettingsPage } from '../modals/settings/settings.page';
+import { HelpPage } from '../modals/help/help.page';
 
 @Component({
   selector: 'app-home',
@@ -18,239 +17,124 @@ import { WriteinPopupPage } from '../writein-popup/writein-popup.page';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('mySlider') slides: IonSlides;
+  @ViewChild('contestSlider') contestSlides: IonSlides;
 
   sliderConfig = {
     effect: 'cube',
     autoHeight: true,
   };
 
-  public xml = '';
-  public xmlFile = '/assets/data/64K_1Contest.xml';
-  public electionContestNames: string[];
-  public currentContest: number;
-  public title: string;
-  public titleTwo: string;
-  public description: string;
-  public name: string;
-  public language: string;
-  private election: Election;
-  private modal: ModalController;
-  private edFiles: string[];
+  election: Election;
+  electionIsLoaded: boolean;
+  currentElectionFile = `/assets/data/64K_1Contest.xml`;
+  currentContest = 1;
 
-  constructor(public modalController: ModalController, private readonly http: HttpClient, private translate: TranslateService) {
+  constructor(
+    private readonly modalController: ModalController,
+    private readonly translate: TranslateService,
+    private readonly electionFileFetcherService: ElectionFileFetcherService,
+    private readonly electionModelConstructorService: ElectionModelConstructorService,
+    private readonly castVoteRecordGeneratorService: CastVoteRecordGeneratorService
+  ) {
     SplashScreen.show({
       showDuration: 2000,
       autoHide: true,
     });
-    this.modal = modalController;
   }
 
   ngOnInit() {
-    this.initializeApp();
-    this.currentContest = 1;
+    if (window.Intl && typeof window.Intl === 'object') {
+      this.translate.setDefaultLang('en');
+      this.translate.use(navigator.language);
+    }
+    this.fetchAndLoadElection(this.currentElectionFile);
   }
 
-  initializeApp() {
-    this.getDeviceLanguage();
-    this.getEDFiles();
-    console.log('EDFiles is :' + this.edFiles);
-    this.openXML();
-  }
+  // EVENT HANDLERS
 
-  openXML() {
-    //alternate data files... need to be able to select which to use
-    this.election = new Election(this.http, this.xmlFile, this);
-    //from the device... TO-DO...later
-    //this.election = new Election( this.http, '/assets/data/64K_1Contest.xml', this);
-    //                  this.election = new Election( this.http, '/assets/data/results-06037-2017-03-07.xml', this);
-    //this.election = new Election( this.http, '/assets/data/LA_County_Reference.xml', this);
-    ////this.election = new Election(this.http, '/assets/data/results-06037-2016-11-08.xml');
-  }
-
-  async openIonModal(data: any) {
-    const modal = await this.modalController.create({
-      component: ModalPopupPage,
-      componentProps: {
-        title: data.title,
-        body: data.body,
-      },
-    });
-    return await modal.present();
-  }
-
-  async voteReview(): Promise<void> {
-    const voteReviewPopupContent = {
-      scrollToContest: 0,
-      home: this,
-      election: this.election,
-      title: 'Vote Review',
-      body: 'election review goes here',
-    };
-
-    const voteReviewModal = await this.modal.create({
-      component: VoteReviewPage,
-      componentProps: voteReviewPopupContent,
-    });
-    await voteReviewModal.present();
-    voteReviewModal.onDidDismiss();
-  }
-
-  public async voteReviewSpecificContest(contestNum: number): Promise<void> {
-    console.log('home.page::voteReviewSpecificContest - should center on contest ' + contestNum);
-    const voteReviewPopupContent = {
-      scrollToContest: contestNum,
-      home: this,
-      election: this.election,
-      title: 'Vote Review',
-      body: 'election review goes here',
-    };
-
-    const voteReviewModal = await this.modal.create({
-      component: VoteReviewPage,
-      componentProps: voteReviewPopupContent,
-    });
-    await voteReviewModal.present();
-
-    voteReviewModal.onDidDismiss();
-  }
-
-  // todo: this doesn't actually do anything - can it be removed?
-  oneVoteClicked(contestNum: number) {
-    console.log('contest ' + contestNum + ' selected in oneVoteClicked');
-  }
-
-  slideNext() {
-    this.slides.slideNext();
+  /**
+   * Navigates to the next contest
+   */
+  goToNextContest() {
+    this.contestSlides.slideNext();
     this.currentContest++;
-    this.currentContest = this.currentContest >= this.election.contests.length ? this.election.contests.length : this.currentContest;
+    const contestCount = this.election.contests.length;
+    this.currentContest = this.currentContest >= contestCount ? contestCount : this.currentContest;
   }
 
-  slidePrevious() {
-    this.slides.slidePrev();
+  /**
+   * Navigates to the previous contest
+   */
+  goToPreviousContest() {
+    this.contestSlides.slidePrev();
     this.currentContest--;
     this.currentContest = this.currentContest <= 0 ? 1 : this.currentContest;
   }
 
-  async settings(): Promise<void> {
-    const settingsPopupContent = { edFiles: this.edFiles, home: this };
-    const settingsModal = await this.modal.create({
-      component: SettingsPage,
-      componentProps: settingsPopupContent,
-    });
-    await settingsModal.present();
-    settingsModal.onDidDismiss();
-  }
+  // MODAL LAUNCHERS
 
-  public changeLanguage(): void {
-    this.translateLanguage();
-  }
-
-  translateLanguage(): void {
-    this.translate.use(this.language);
-  }
-
-  initTranslate(language) {
-    console.log('language is ' + language);
-    // Set the default language for translation strings, and the current language.
-    this.translate.setDefaultLang('en');
-    if (language) {
-      this.language = language;
-    } else {
-      // Set your language here
-      this.language = 'en';
-    }
-    this.translateLanguage();
-  }
-
-  getDeviceLanguage() {
-    if (window.Intl && typeof window.Intl === 'object') {
-      this.initTranslate(navigator.language);
-    }
-  }
-  getTranslator() {
-    return this.translate;
-  }
-
-  // todo: this doesn't actually do anything - can it be removed?
-  logScrollStart() {
-    console.log('home.page.ts:logScrollStart - in logScrollStart');
-  }
-
-  // todo: this doesn't actually do anything - can it be removed?
-  logScrolling() {
-    console.log('home.page.ts:logScrolling - in logScrolling');
-  }
-
-  // todo: this doesn't actually do anything - can it be removed?
-  logScrollEnd() {
-    console.log('home.page.ts:logScrollEnd - in logScrollEnd');
-  }
-
-  getEDFiles() {
-    try {
-      const xmlFiles = '/assets/data/index.txt';
-
-      this.http
-        .get(xmlFiles, {
-          headers: new HttpHeaders()
-            .set('Content-Type', 'application/json ')
-            .append('Access-Control-Allow-Methods', 'GET')
-            .append('Access-Control-Allow-Origin', '*')
-            .append(
-              'Access-Control-Allow-Headers',
-              'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'
-            ),
-          responseType: 'text',
-        })
-        .subscribe((jsonData) => {
-          console.log('data read is ' + jsonData);
-          this.edFiles = jsonData.split('\n');
-        });
-    } catch (e) {
-      console.log('Error:', e);
-    }
-  }
-
-  getEDF() {
-    return this.xmlFile;
-  }
-
-  setEDF(xmlFile: string) {
-    this.xmlFile = xmlFile;
-    this.openXML();
-  }
-
-  itemClicked(event: Event, candidate: Candidate) {
-    console.log('got to itemClicked... checking whether ' + candidate.getCandidateName() + ' is a writein');
-    if (candidate.isWriteIn()) {
-      console.log('you clicked a write in');
-
-      this.writeInPopup(candidate);
-    }
-  }
-
-  async writeInPopup(candidate: Candidate): Promise<void> {
-    const writeinPopupContent = {
-      title: 'Write-In Candidate',
-      body: 'write-in election review goes here',
-      writeinName: candidate.getCandidateName(),
+  /**
+   * Opens the settings modal, which allows the user to change between election files
+   */
+  async openSettingsModal(): Promise<void> {
+    const componentProps = {
+      currentElectionFile: this.currentElectionFile,
     };
-
-    const writeinPopupModal = await this.modal.create({
-      component: WriteinPopupPage,
-      componentProps: writeinPopupContent,
-    });
-
-    await writeinPopupModal.present();
-
-    writeinPopupModal.onDidDismiss().then((data) => {
-      console.log('got this data ' + data);
-      if (data.data.trim().length > 0) {
-        candidate.setCandidateName(data.data);
-      } else {
-        candidate.setCandidateName(candidate.writeInConst);
+    const modal = await this.modalController.create({ component: SettingsPage, componentProps });
+    await modal.present();
+    modal.onDidDismiss().then((response) => {
+      const newElectionFile = response.data?.selectedElectionFile;
+      if (newElectionFile && this.currentElectionFile !== newElectionFile) {
+        this.currentElectionFile = newElectionFile;
+        this.fetchAndLoadElection(newElectionFile);
       }
     });
+  }
+
+  /**
+   * Opens the vote review modal, which allows the user to review their votes and optionally submit
+   */
+  async openVoteReviewModal(): Promise<void> {
+    const componentProps = {
+      election: this.election,
+    };
+    const modal = await this.modalController.create({ component: VoteReviewPage, componentProps });
+    await modal.present();
+    modal.onDidDismiss().then((response) => {
+      const shouldCastBallot = response.data?.shouldCastBallot;
+      if (shouldCastBallot) {
+        // todo: Bret's initial implementation simply console.logged the CVR value out
+        // we should revisit this to see what the requirements are and implement them accordingly
+        const castVoteRecord: CastVoteRecord = this.castVoteRecordGeneratorService.createCVR(this.election);
+        console.log(castVoteRecord);
+      }
+    });
+  }
+
+  /**
+   * Opens the help modal
+   */
+  async openHelpModal(): Promise<void> {
+    const modal = await this.modalController.create({ component: HelpPage });
+    await modal.present();
+  }
+
+  // PRIVATE METHODS
+
+  /**
+   * Handles fetching and loading the election file,
+   * either on initial load or when changing election files using the settings modal
+   *
+   * @param electionFile
+   */
+  private fetchAndLoadElection(electionFile: string) {
+    this.electionIsLoaded = false;
+    this.electionFileFetcherService
+      .fetchElection(electionFile)
+      .then((electionJsonFileContents) => this.electionModelConstructorService.constructElectionModel(electionJsonFileContents))
+      .then((election) => {
+        this.election = election;
+        this.electionIsLoaded = true;
+      });
   }
 }

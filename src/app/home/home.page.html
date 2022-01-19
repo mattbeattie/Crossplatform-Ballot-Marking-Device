@@ -1,68 +1,30 @@
-<ion-header *ngIf="election.ready">
+<ion-header *ngIf="electionIsLoaded">
   <ion-toolbar>
     <div class="center-button">
-      <ion-button outline (click)="settings($event)" translate> <ion-icon name="cog-outline"></ion-icon>SETTINGS</ion-button>
-      <ion-button outline (click)="help($event)" translate>
+      <ion-button outline (click)="openSettingsModal()" translate> <ion-icon name="cog-outline"> </ion-icon>SETTINGS</ion-button>
+      <ion-button outline (click)="openHelpModal()" translate>
         <ion-icon name="help-outline"></ion-icon>
         HELP
       </ion-button>
-      <ion-button outline (click)="voteReview($event)" translate>REVIEW_YOUR_VOTES</ion-button>
+      <ion-button outline (click)="openVoteReviewModal()" translate>REVIEW_YOUR_VOTES</ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollEvents]="true" (ionScrollStart)="logScrollStart()" (ionScroll)="logScrolling($event)" (ionScrollEnd)="logScrollEnd()">
-  <div *ngIf="!election.ready">
+<ion-content>
+  <div *ngIf="!electionIsLoaded">
     <ion-spinner name="bubbles"></ion-spinner>
     <ion-label>Loading...</ion-label>
   </div>
 
-  <div *ngIf="election.ready">
-    <ion-slides #mySlider [options]="sliderConfig">
-      <ion-slide *ngFor="let item of election.contests">
-        <br />
-        <br />
-        <div>
-          <ion-label>{{item.contestName}}</ion-label>
-          <br />
-          <ion-label float="left" slot="start" translate> VOTE_FOR</ion-label>
-          <ion-label>{{item.getVotesAllowed()}} </ion-label>
-          <br />
-          <ion-label float="right" slot="end">{{item.statusMessage1}}</ion-label>
-          <ion-label color="danger" slot="end">{{item.statusMessage2}}</ion-label>
-          <ion-label slot="end">{{item.statusMessage3}}</ion-label>
-          <br />
-          <br />
-          <div class="center-button">
-            <ion-item>
-              <ion-button disabled="true" color="warning" margin:auto>
-                <ion-icon name="arrow-up"></ion-icon>
-                Touch to see more names
-                <ion-icon name="arrow-up"></ion-icon>
-              </ion-button>
-            </ion-item>
-          </div>
-          <ion-list no-line>
-            <div *ngFor="let ballotSelection of item.ballotSelections">
-              <div *ngFor="let candidateName of ballotSelection.candidates">
-                <ion-row no-line>
-                  <ion-item text-wrap no-line item-start (click)="itemClicked($event, candidateName)">
-                    <ion-checkbox [(ngModel)]="ballotSelection.selected" (ionChange)="item.ionChangeUpdateCheckbox($event)"></ion-checkbox>
-                    <ion-label no-line>{{candidateName.personName}} {{candidateName.partyAbbreviation}}</ion-label>
-                  </ion-item>
-                </ion-row>
-              </div>
-            </div>
-          </ion-list>
-          <div class="center-button">
-            <ion-item>
-              <ion-button disabled="true" color="warning" margin:auto>
-                <ion-icon name="arrow-down"></ion-icon>
-                Touch to see more names
-                <ion-icon name="arrow-down"></ion-icon>
-              </ion-button>
-            </ion-item>
-          </div>
+  <div *ngIf="electionIsLoaded">
+    <ion-slides #contestSlider [options]="sliderConfig">
+      <ion-slide *ngFor="let contest of election.contests">
+        <div *ngIf="contest.type === 'CandidateContest'">
+          <app-candidate-contest [contest]="contest"></app-candidate-contest>
+        </div>
+        <div *ngIf="contest.type === 'BallotMeasureContest'">
+          <app-ballot-measure-contest [contest]="contest"></app-ballot-measure-contest>
         </div>
       </ion-slide>
     </ion-slides>
@@ -70,13 +32,13 @@
       <ion-toolbar>
         <div class="center-button">
           <div>
-            <ion-button slot="start" outline (click)="slidePrevious()" translate
+            <ion-button slot="start" outline (click)="goToPreviousContest()" translate
               >PREVIOUS
               <ion-icon slot="start" name="arrow-undo-outline"></ion-icon>
             </ion-button>
 
             <ion-label style="padding: 20px">{{currentContest}}/{{election.contests.length}}</ion-label>
-            <ion-button slot="end" outline (click)="slideNext()" translate>
+            <ion-button slot="end" outline (click)="goToNextContest()" translate>
               NEXT
               <ion-icon slot="end" name="arrow-redo-outline"></ion-icon>
             </ion-button>

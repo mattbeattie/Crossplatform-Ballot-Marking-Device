@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'VOTE_REVIEW' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngFor="let contest of election.contests">
+    <ion-list no-line>
+      <div *ngIf="contest.type === 'CandidateContest'">
+        <app-candidate-contest [contest]="contest" [launchInVoteReviewMode]="launchInVoteReviewMode"></app-candidate-contest>
+      </div>
+      <div *ngIf="contest.type === 'BallotMeasureContest'">
+        <app-ballot-measure-contest [contest]="contest" [launchInVoteReviewMode]="launchInVoteReviewMode"></app-ballot-measure-contest>
+      </div>
+    </ion-list>
+  </ion-card>
+  <div class="center-button">
+    <ion-button class="extra-padding" (click)="closeModal(false)">{{ 'CLOSE' | translate }}</ion-button>
+    <ion-button color="danger" (click)="closeModal(true)">{{ 'CAST_BALLOT' | translate }}</ion-button>
+  </div>
+</ion-content>

@@ -1,11 +1,124 @@
 # Ballot Markup Application ("Elroy")
 
+- [Application Architecture](#application-architecture)
+  - [Application parts and filesystem structure](#application-parts-and-filesystem-structure)
+  - [Adding a new type of contest](#adding-a-new-type-of-contest)
+  - [Adding a new modal](#adding-a-new-modal)
 - [Running the Application](#running-the-application)
 - [Ensuring Quality in the Application](#ensuring-quality-in-the-application)
 - [Building Native Binaries](#building-native-binaries)
 - [Development Workflow](#development-workflow)
 
 The project (codenamed "Elroy") handles ballot markup. It is part of the overall Markit ecosystem and will eventually be folded into a single application.
+
+## Application Architecture
+
+The ballot markup application has three main goals:
+
+1. Load and parse an election data file (EDF)
+2. Guide the user through the process of making selections for each contest
+3. On submission, generate a cast vote record (CVR) to be sent downstream
+
+To that end, the application is generally structured as follows:
+
+![image](https://user-images.githubusercontent.com/7593323/148698710-5c5656b1-a6ff-4c28-8a65-9682bf844220.png)
+
+### Application parts and filesystem structure
+
+The "Home" Page lives in `src/app/home/`, and is the root of the application. The home page provides the root template which handles loading the application, launching the modals in the header and footer, and allowing the user to work their way through the various contest pages as part of the ballot markup process.
+
+Contest Components live in `src/app/components/`, and contain the HTML templates and business logic required for each type of contest. Given that every election will contain multiple types of contests (e.g., candidate contests, ballot measure contests, etc), each must have their own unique logic and display rules - encapsulated in a single component.
+
+Modals live in `src/app/modals/`, and are responsible for launching a modal view to the user. Modals should be simple and singular in purpose. They may capture and return some user input to the calling page/component, or they may be launched for informational purposes only.
+
+Services live in `src/app/services/`, and are each responsible for single task. Complex business logic should generally not live in any of the aforementioned application parts, and so therefore are handled at the service layer. At this time nothing from the components or modals use anything from the service layer; however, if these application parts find themselves doing something similar or even identical, that logic should be moved to the service layer accordingly.
+
+### Adding a new type of contest
+
+#### Prerequisite: update the election model and CVR generation logic
+
+First, you'll first need to update the election model constructor service to parse out the new contest type from the election data file. As part of this process, you'll need to update and add to the interfaces accordingly.
+
+Each contest will use the same root `Contest` type. Where the contests diverge is the `Contest`'s `ballotSelection` property: each contest type has its own "ballot selection" interface, which the contest's view and business logic will iterate over when displaying options to the user.
+
+So if you're adding a new contest type "Sandwiches", create a new `SandwichBallotSelection` interface and add it to the list of allowed ballot selections in the `Contest`'s `ballotSelection`. The new `SandwichBallotSelection` interface will contain all the properties relevant to sandwiches.
+
+Second, you'll need to update the CVR generation logic to account for the new contest type. Ideally this should be fairly straightforward to implement given the election model changes you just implemented. Simply make the necessary model changes to the `CastVoteRecord` interface and update the logic accordingly.
+
+#### Steps to create a new contest component
+
+1. Create a new component for the contest type (`npx ng generate component foo-contest`) and move it into the `src/app/components/` directory in its own folder like the others
+2. Update `home.module.ts` and `vote-review.module.ts`, adding the new component to the `entryComponents` and `declarations` array. This allows those pages to render the new component.
+3. Update `home.page.html`, adding an `*ngIf` conditional for the new contest type, which loads the new component and passes in the contest object accordingly
+4. Update `vote-review.page.html`, adding an `*ngIf` conditional for the new contest type, which loads the new component and passes in the contest object and `launchInVoteReviewMode` (described below) accordingly
+5. Build the necessary template and logic for the new contest into that contest's new component
+
+#### Handling both "selection" mode and "vote review" mode
+
+Note that each contest will be rendered from exactly two locations:
+
+- The "Home" page, where the user is allowed to make selections
+- The "Vote Review" modal, where the contest is displayed in "read-only" mode
+
+In order to meet both requirements, while also ensuring each contest's view and business logic are encapsulated in exactly one place, each contest component must have the following input:
+
+```typescript
+  @Input() launchInVoteReviewMode: boolean;
+```
+
+The HTML template must have two top-level divs: one for the "full selection" mode and one for "vote review" mode:
+
+```html
+<div *ngIf="!launchInVoteReviewMode">Implement full selection display logic here</div>
+
+<div *ngIf="launchInVoteReviewMode">Implement vote review display logic here</div>
+```
+
+In thise way, each contest component can be rendered in either "selection" or "vote review" mode depending on where it's being launched.
+
+### Adding a new modal
+
+#### Basic steps
+
+Creating a new modal and calling it from an existing page is easy. Follow the below steps:
+
+1. Create a new page for the modal (`npx ng generate page foo`) and move it into the `src/app/modals/` directory in its own folder like the others (make sure to update the import path in `app-routing.module.ts` accordingly)
+2. From wherever you need to launch the modal (e.g., the "Home" page), create a new `openBarModal` function which uses `this.modalController.create` to open the new modal
+3. In the corresponding HTML template, add a new icon for it with a click handler that calls the opener function you just created
+
+#### Optional: allow translations
+
+If you need to handle translations in your modal, open the new modal's module file, and add the following the the `imports`:
+
+```typescript
+TranslateModule.forChild({
+  loader: {
+    provide: TranslateLoader,
+    useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json'),
+    deps: [HttpClient],
+  },
+}),
+```
+
+#### Optional: pass data from the modal back to the caller
+
+If you need to pass data from the modal back to the caller, always send it as an object so that the caller can pluck the property it wants from the response object. Additionally, you'll need to add some error handling to account for the case where the property may not exist. Here's an example:
+
+```typescript
+async openFooModal(): Promise<void> {
+  const componentProps = {
+    bar: 'example data',
+  };
+  const modal = await this.modalController.create({ component: FooPage, componentProps });
+  await modal.present();
+  modal.onDidDismiss().then((response) => {
+    const interestingDataPoint = response.data?.interestingDataPoint;
+    if (interestingDataPoint) {
+      // todo: implement some desired logic based on the value of interestingDataPoint
+    }
+  });
+}
+```
 
 ## Running the Application
 

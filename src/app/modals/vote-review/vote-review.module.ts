@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HomePage } from './home.page';
-import { HomePageRoutingModule } from './home-routing.module';
-import { CandidateContestComponent } from '../components/candidate-contest/candidate-contest.component';
-import { BallotMeasureContestComponent } from '../components/ballot-measure-contest/ballot-measure-contest.component';
+import { VoteReviewPageRoutingModule } from './vote-review-routing.module';
+import { VoteReviewPage } from './vote-review.page';
+import { CandidateContestComponent } from '../../components/candidate-contest/candidate-contest.component';
+import { BallotMeasureContestComponent } from '../../components/ballot-measure-contest/ballot-measure-contest.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     IonicModule,
-    HomePageRoutingModule,
+    VoteReviewPageRoutingModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -26,6 +24,6 @@ import { BallotMeasureContestComponent } from '../components/ballot-measure-cont
     }),
   ],
   entryComponents: [CandidateContestComponent, BallotMeasureContestComponent],
-  declarations: [HomePage, CandidateContestComponent, BallotMeasureContestComponent],
+  declarations: [VoteReviewPage, CandidateContestComponent, BallotMeasureContestComponent],
 })
-export class HomePageModule {}
+export class VoteReviewPageModule {}

@@ -12,24 +12,20 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'modal-popup',
-    loadChildren: () => import('./modal-popup/modal-popup.module').then((m) => m.ModalPopupPageModule),
+    path: 'selected-too-many',
+    loadChildren: () => import('./modals/selected-too-many/selected-too-many.module').then((m) => m.SelectedTooManyPageModule),
   },
   {
     path: 'vote-review',
-    loadChildren: () => import('./vote-review/vote-review.module').then((m) => m.VoteReviewPageModule),
-  },
-  {
-    path: 'present-one-contest',
-    loadChildren: () => import('./present-one-contest/present-one-contest.module').then((m) => m.PresentOneContestPageModule),
+    loadChildren: () => import('./modals/vote-review/vote-review.module').then((m) => m.VoteReviewPageModule),
   },
   {
     path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsPageModule),
+    loadChildren: () => import('./modals/settings/settings.module').then((m) => m.SettingsPageModule),
   },
   {
-    path: 'writein-popup',
-    loadChildren: () => import('./writein-popup/writein-popup.module').then((m) => m.WriteinPopupPageModule),
+    path: 'help',
+    loadChildren: () => import('./modals/help/help.module').then((m) => m.HelpPageModule),
   },
 ];
 
