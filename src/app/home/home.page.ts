@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
 
   election: Election;
   electionIsLoaded: boolean;
-  currentElectionFile = `/assets/data/64K_1Contest.xml`;
+  currentElectionFile = `/assets/data/single_candidate_contest.xml`;
   currentContest = 1;
 
   constructor(
