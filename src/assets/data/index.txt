@@ -1,2 +1,4 @@
+ballot_measure_contest.xml
 n-of-m_contest.xml
+presidential_election_example.xml
 single_candidate_contest.xml

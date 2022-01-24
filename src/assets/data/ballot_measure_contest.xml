@@ -1,8 +1,8 @@
-<!-- source: https://github.com/TrustTheVote-Project/NIST-1500-100-103-examples/blob/main/NIST_1500-100/version_2/n-of-m_contest.xml -->
+<!-- source: https://github.com/TrustTheVote-Project/NIST-1500-100-103-examples/blob/main/NIST_1500-100/version_2/ballot_measure_contest.xml -->
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-    Definition of an election containing an n-of-m contest.
+    Definition of an election containing a ballot measure.
  -->
 <ElectionReport xmlns="http://itl.nist.gov/ns/voting/1500-100/v2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -15,89 +15,100 @@
                 <HeaderId>princeton_borough_header</HeaderId>
             </OrderedContent>
             <OrderedContent xsi:type="OrderedContest">
-                <ContestId>town_council_contest</ContestId>
+                <ContestId>new_jersey_public_question_1</ContestId>
             </OrderedContent>
         </BallotStyle>
 
-        <!-- Candidates for town council -->
-        <Candidate ObjectId="candidate_cnum_1">
-            <BallotName>
-                <Text Language="en">candidate_1</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_2">
-            <BallotName>
-                <Text Language="en">candidate_2</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_3">
-            <BallotName>
-                <Text Language="en">candidate_3</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_4">
-            <BallotName>
-                <Text Language="en">candidate_4</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_5">
-            <BallotName>
-                <Text Language="en">candidate_5</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_6">
-            <BallotName>
-                <Text Language="en">candidate_6</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_7">
-            <BallotName>
-                <Text Language="en">candidate_7</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_8">
-            <BallotName>
-                <Text Language="en">candidate_8</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_9">
-            <BallotName>
-                <Text Language="en">candidate_9</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_10">
-            <BallotName>
-                <Text Language="en">candidate_10</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_11">
-            <BallotName>
-                <Text Language="en">candidate_11</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_12">
-            <BallotName>
-                <Text Language="en">candidate_12</Text>
-            </BallotName>
-        </Candidate>
-        <Candidate ObjectId="candidate_cnum_13">
-            <BallotName>
-                <Text Language="en">candidate_13</Text>
-            </BallotName>
-        </Candidate>
-
-        <!-- Town Council contest -->
-        <Contest xsi:type="CandidateContest" ObjectId="town_council_contest">
-            <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-            <Name>For Princeton Town Council</Name>
-            <VoteVariation>n-of-m</VoteVariation>
-            <OfficeIds>princeton_councilmember_1 princeton_councilmember_2 princeton_councilmember_3
-                princeton_councilmember_4 princeton_councilmember_5 princeton_councilmember_6
-                princeton_councilmember_7</OfficeIds>
-            <VotesAllowed>7</VotesAllowed>
+ 
+        <Contest xsi:type="BallotMeasureContest" ObjectId="new_jersey_public_question_1">
+            <ElectionDistrictId>state_new_jersey</ElectionDistrictId>
+            <Name>Constitutional Amendment to Legalize Marijuana</Name>
+            <ConStatement>     
+                <Text Language="en">Shawn Hyland, Director of Advocacy for the Family
+                    Policy Alliance of New Jersey: "The detrimental effect recreational
+                    marijuana will have in the Garden State is undeniable. Study after
+                    study shows legalizing pot will put the public safety of New Jerseyans
+                    at risk. If our legislators continue to support this measure, they are
+                    ignoring the historical trends of harmful youth usage and the
+                    extensive negative effect legalized marijuana has had on communities
+                    of color."
+                    
+                    Kevin Sabet, president of SAM: "It’s time to finally take
+                    action on the social justice concerns the promoters of legalization
+                    have raised, but they will not be solved by creating a commercial
+                    marijuana market in New Jersey. Marijuana commercialization is indeed
+                    a social injustice and polling has routinely shown New Jersey
+                    residents don’t want pot shops in their back yards. It’s time to end
+                    this reckless push once and for all."
+                    
+                    Stephen Reid, Executive Director of NJ RAMP: "The pot advocates here
+                    in Trenton are desperate to institute their addiction-for-profit model
+                    in New Jersey." </Text>
+            </ConStatement>
+            <FullText>
+                <Text Language="en">Do you approve amending the Constitution to 
+                    legalize a controlled form of marijuana called “cannabis”?
+                    
+                    Only adults at least 21 years of age could use cannabis. The State
+                    commission created to oversee the State’s medical cannabis program
+                    would also oversee the new, personal use cannabis market.
+                    
+                    Cannabis products would be subject to the State sales tax. If
+                    authorized by the Legislature, a municipality may pass a local
+                    ordinance to charge a local tax on cannabis products.</Text>
+            </FullText>
+            <ProStatement>
+                <Text Language="en">Michael McQueeny, a lawyer who focused on cannabis
+                    law: "If we didn’t need the money before, we certainly need it
+                    post-pandemic with all the austerity measures that are being talked
+                    about at the state level due to certain budget issues because of the
+                    pandemic."
+                    
+                    State Sen. Nicholas Scutari (D-22): "It will be an
+                    economic engine for New Jersey when it gets going. The greater impact
+                    on society is going to be the job opportunities, people getting
+                    employed and paying their employment tax, people not getting
+                    arrested. It’ll be a whole new industry just like we have liquor
+                    stores, and we have breweries and we have beverage warehousing."
+                    
+                    NJ CAN 2020: "Legalizing cannabis for adult use will reduce costs,
+                    create jobs, and generate revenue for New Jersey."
+                    
+                    NJ CAN 2020: "Regulation of a legalized market and industry will allow
+                    for stringent quality control and best practices, better ensuring a
+                    safer product than an unregulated market. It would also limit the
+                    ability of those underage from obtaining marijuana designed for adult
+                    use. All of this would promote public health and safety."
+                    
+                    U.S. Rep. Frank Pallone (D-6): "Enforcement of marijuana laws has led
+                    to the unequal treatment and targeting of minority communities and has
+                    contributed to the mass incarceration of Black people in New Jersey
+                    and throughout our country. Marijuana should be legalized."</Text>
+            </ProStatement> 
+            <SummaryText>
+                <Text Language="en">This amendment would legalize a
+                    controlled form of marijuana called “cannabis.” Only
+                    persons at least 21 years of age could use cannabis
+                    products legally.
+                    
+                    The Cannabis Regulatory Commission would oversee
+                    the new adult cannabis market. This commission was
+                    created in 2019 to oversee the State’s medical
+                    cannabis program. The scope of the commission’s
+                    new authority would be detailed in laws enacted by
+                    the Legislature.
+                    
+                    All retail sales of cannabis products in the new adult
+                    cannabis market would be subject to the State’s sales
+                    tax. If authorized by the Legislature, a municipality
+                    may pass a local ordinance to charge a local tax on
+                    cannabis products.</Text>
+            </SummaryText>
+            <Type>other</Type>
+            <OtherType>state_constitutional_amendment</OtherType>
         </Contest>
 
-        <ElectionScopeId>princeton_borough</ElectionScopeId>
+        <ElectionScopeId>state_new_jersey</ElectionScopeId>
         <Name>
             <Text Language="en">Spring 2022 Princeton Municipal Election</Text>
         </Name>
@@ -299,85 +310,6 @@
 
     <Issuer>Trust the Vote</Issuer>
     <IssuerAbbreviation>TTV</IssuerAbbreviation>
-
-
-    <!-- Princeton Council offices -->
-    <Office ObjectId="princeton_councilmember_1">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-    <Office ObjectId="princeton_councilmember_2">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-    <Office ObjectId="princeton_councilmember_3">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-    <Office ObjectId="princeton_councilmember_4">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-    <Office ObjectId="princeton_councilmember_5">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-    <Office ObjectId="princeton_councilmember_6">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-    <Office ObjectId="princeton_councilmember_7">
-        <ElectionDistrictId>princeton_borough</ElectionDistrictId>
-        <Name>
-            <Text Language="en">Princeton Councilmember</Text>
-        </Name>
-    </Office>
-
-    <OfficeGroup Label="Council of Princeton">
-        <Name>Council of Princeton</Name>
-        <OfficeIds>princeton_councilmember_1 princeton_councilmember_2 princeton_councilmember_3
-            princeton_councilmember_4 princeton_councilmember_5 princeton_councilmember_6
-            princeton_councilmember_7</OfficeIds>
-    </OfficeGroup>
-
-    <Party ObjectId="princeton_democratic_party">
-        <Abbreviation>
-            <Text Language="en">PDMC</Text>
-        </Abbreviation>
-        <Name>
-            <Text Language="en">Princeton Democratic Municipal Committee</Text>
-        </Name>
-        <PartyScopeGpUnitIds>princeton_borough</PartyScopeGpUnitIds>
-    </Party>
-    <Party ObjectId="mercer_county_democratic_party">
-        <ContactInformation Label="website">
-            <Uri>https://mercerdemocrats.com</Uri>
-        </ContactInformation>
-        <Name>
-            <Text Language="en">Mercer County Democrats</Text>
-        </Name>
-        <PartyScopeGpUnitIds>mercer_county</PartyScopeGpUnitIds>
-    </Party>
-    <Party ObjectId="new_jersey_republican_party">
-        <Abbreviation>
-            <Text Language="en">NJGOP</Text>
-        </Abbreviation>
-        <Name>
-            <Text Language="en">New Jersey Republican Party</Text>
-        </Name>
-    </Party>
 
     <SequenceStart>1</SequenceStart>
     <SequenceEnd>1</SequenceEnd>
