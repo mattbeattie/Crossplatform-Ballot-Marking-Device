@@ -1,8 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { WriteInPage } from 'src/app/modals/write-in/write-in.page';
 
 import { SelectedTooManyPage } from '../../modals/selected-too-many/selected-too-many.page';
-import { Contest, CandidateBallotSelection, Candidate } from '../../services/election-model-constructor.service';
+import {
+  Contest,
+  CandidateBallotSelection,
+  Candidate,
+  WriteInCandidate,
+  CandidateType,
+} from '../../services/election-model-constructor.service';
 
 @Component({
   selector: 'app-candidate-contest',
@@ -59,5 +66,74 @@ export class CandidateContestComponent implements OnInit {
       0
     );
     return allowedVotes - totalSelectedCandidates;
+  }
+
+  /**
+   * Launches the writein modal and persists the data back to the model when complete
+   */
+  async openWriteInModal(): Promise<void> {
+    const componentProps = { writeInName: this.getWriteInName() };
+    const modal = await this.modalController.create({ component: WriteInPage, componentProps });
+    await modal.present();
+    modal.onDidDismiss().then((response) => {
+      const newWriteInName = response.data?.writeInName;
+      if (newWriteInName === undefined) {
+        // if the user clicks outside of the modal, it will send back the value of undefined - we do not update the value here
+        // we preserve the "selectedness" to what it was before the modal was launched (i.e., the opposite of whatever it is now)
+        this.selectWriteIn(!this.getWriteInIsSelected());
+      } else if (newWriteInName.trim() === '') {
+        // if the user clears out the field or adds empty spaces, we deselect it and set back to the default (empty string)
+        this.setWriteInName('');
+        this.selectWriteIn(false);
+      } else {
+        // else, we can take whatever the input was and set it, and will always ensure it's selected
+        this.setWriteInName(newWriteInName);
+        this.selectWriteIn(true);
+      }
+    });
+  }
+
+  /**
+   * Gets the value of the write-in candidate's name
+   *
+   * @returns
+   */
+  private getWriteInName(): string {
+    return this.contest.ballotSelections.map((ballotSelection: CandidateBallotSelection) =>
+      ballotSelection.candidates.find((candidate: Candidate | WriteInCandidate) => candidate.type === CandidateType.writeIn)
+    )[0].name;
+  }
+
+  /**
+   * Sets the value of the write-in candidate's name
+   *
+   * @param newWriteInName
+   */
+  private setWriteInName(newWriteInName: string): void {
+    this.contest.ballotSelections.map((ballotSelection: CandidateBallotSelection) =>
+      ballotSelection.candidates.find((candidate: Candidate | WriteInCandidate) => candidate.type === CandidateType.writeIn)
+    )[0].name = newWriteInName;
+  }
+
+  /**
+   * Gets the value of the write-in candidate's isSelected value
+   *
+   * @returns
+   */
+  private getWriteInIsSelected(): boolean {
+    return this.contest.ballotSelections.map((ballotSelection: CandidateBallotSelection) =>
+      ballotSelection.candidates.find((candidate: Candidate | WriteInCandidate) => candidate.type === CandidateType.writeIn)
+    )[0].isSelected;
+  }
+
+  /**
+   * Sets the value of the write-in candidate's isSelected value
+   *
+   * @param selected
+   */
+  private selectWriteIn(selected: boolean): void {
+    this.contest.ballotSelections.map((ballotSelection: CandidateBallotSelection) =>
+      ballotSelection.candidates.find((candidate: Candidate | WriteInCandidate) => candidate.type === CandidateType.writeIn)
+    )[0].isSelected = selected;
   }
 }

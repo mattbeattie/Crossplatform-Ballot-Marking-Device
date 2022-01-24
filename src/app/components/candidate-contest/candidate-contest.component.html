@@ -26,15 +26,34 @@
     <ion-list no-line>
       <div *ngFor="let ballotSelection of contest.ballotSelections">
         <div *ngFor="let candidate of ballotSelection.candidates">
-          <ion-row no-line>
-            <ion-item text-wrap no-line item-start>
-              <ion-checkbox
-                [(ngModel)]="candidate.isSelected"
-                (ionChange)="deselectAndDisplayModalIfTooManySelected($event, contest, candidate.id)"
-              ></ion-checkbox>
-              <ion-label no-line>{{ candidate.name }} {{ candidate.partyAbbreviation }}</ion-label>
-            </ion-item>
-          </ion-row>
+          <div *ngIf="candidate.type === 'candidate'">
+            <ion-row no-line>
+              <ion-item text-wrap no-line item-start>
+                <ion-checkbox
+                  [(ngModel)]="candidate.isSelected"
+                  (ionChange)="deselectAndDisplayModalIfTooManySelected($event, contest, candidate.id)"
+                ></ion-checkbox>
+                <ion-label no-line>{{ candidate.name }} {{ candidate.partyAbbreviation }}</ion-label>
+              </ion-item>
+            </ion-row>
+          </div>
+          <div *ngIf="candidate.type === 'writeIn'">
+            <ion-row no-line>
+              <ion-item text-wrap no-line item-start>
+                <ion-checkbox
+                  [(ngModel)]="candidate.isSelected"
+                  (click)="openWriteInModal()"
+                  (ionChange)="deselectAndDisplayModalIfTooManySelected($event, contest, candidate.id)"
+                ></ion-checkbox>
+                <div *ngIf="candidate.name">
+                  <ion-label no-line>{{ candidate.name }}</ion-label>
+                </div>
+                <div *ngIf="!candidate.name">
+                  <ion-label no-line>Click here to add a write-in</ion-label>
+                </div>
+              </ion-item>
+            </ion-row>
+          </div>
         </div>
       </div>
     </ion-list>
