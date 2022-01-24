@@ -1,5 +1,5 @@
-import { ViewChild, Component, Input } from '@angular/core';
-import { ModalController, IonContent } from '@ionic/angular';
+import { Component, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 import { Election } from '../../services/election-model-constructor.service';
 
@@ -9,8 +9,6 @@ import { Election } from '../../services/election-model-constructor.service';
   styleUrls: ['vote-review.page.scss'],
 })
 export class VoteReviewPage {
-  @ViewChild(IonContent, { static: false }) content: IonContent;
-
   @Input() election: Election;
 
   launchInVoteReviewMode = true;
