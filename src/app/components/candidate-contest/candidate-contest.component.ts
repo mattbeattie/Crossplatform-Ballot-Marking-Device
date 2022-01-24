@@ -70,6 +70,10 @@ export class CandidateContestComponent implements OnInit {
 
   /**
    * Launches the writein modal and persists the data back to the model when complete
+   *
+   * todo: this implementation assumes that there will only ever be one write-in per contest.
+   * the following issue confirms if this is true: https://github.com/TrustTheVote-Project/NIST-1500-100-103-examples/issues/26
+   * if this is NOT true, then we'll need to use some identifier rather than looking up the write-in candidate
    */
   async openWriteInModal(): Promise<void> {
     const componentProps = { writeInName: this.getWriteInName() };
