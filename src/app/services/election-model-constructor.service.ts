@@ -184,7 +184,7 @@ export class ElectionModelConstructorService {
     const candidateIds = contestResponse.contestSelection.map((contestSelection: any) =>
       // todo: will we need to handle multiple candidate IDs here? assume "no" for now
       // https://github.com/TrustTheVote-Project/NIST-1500-100-103-examples/issues/24
-       !!contestSelection.candidateIds && contestSelection.candidateIds.length ? contestSelection.candidateIds[0] : writeInMarker
+      !!contestSelection.candidateIds && contestSelection.candidateIds.length ? contestSelection.candidateIds[0] : writeInMarker
     );
 
     const candidates: Candidate[] = candidateIds.map((candidateId: string) => {
