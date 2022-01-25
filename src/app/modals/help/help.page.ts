@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-help',
   templateUrl: './help.page.html',
   styleUrls: ['./help.page.scss'],
 })
-export class HelpPage implements OnInit {
-  constructor() {}
+export class HelpPage {
+  constructor(private readonly modalController: ModalController) {}
 
-  ngOnInit() {}
+  async closeModal() {
+    await this.modalController.dismiss();
+  }
 }
