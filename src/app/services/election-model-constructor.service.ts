@@ -241,15 +241,6 @@ export class ElectionModelConstructorService {
    * @returns
    */
   private getCandidateInfoByCandidateId(electionReport: any, candidateId: string): any {
-    // todo: address potential underlying data issue and remove this one-off case
-    // https://github.com/TrustTheVote-Project/NIST-1500-100-103-examples/issues/25
-    if (candidateId === 'beta_for_mayor') {
-      return {
-        ballotName: [{ text: [{ characters: 'Betty Beta' }] }],
-        partyId: ['new_jersey_republican_party'],
-      };
-    }
-
     const matchingCandidate = electionReport.election[0].candidate.find(
       (candidateResponse: any) => candidateResponse.attributes.ObjectId === candidateId
     );
