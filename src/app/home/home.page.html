@@ -1,4 +1,4 @@
-<ion-header *ngIf="electionIsLoaded">
+<ion-header>
   <ion-toolbar>
     <div class="center-button">
       <ion-button outline (click)="openSettingsModal()" translate> <ion-icon name="cog-outline"> </ion-icon>SETTINGS</ion-button>
@@ -12,9 +12,13 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="!electionIsLoaded">
+  <div *ngIf="!electionIsLoaded && !electionFailedToLoad">
     <ion-spinner name="bubbles"></ion-spinner>
     <ion-label>Loading...</ion-label>
+  </div>
+
+  <div *ngIf="electionFailedToLoad">
+    <ion-label>The application failed to parse the EDF. Please try another one.</ion-label>
   </div>
 
   <div *ngIf="electionIsLoaded">

@@ -26,6 +26,7 @@ export class HomePage implements OnInit {
 
   election: Election;
   electionIsLoaded: boolean;
+  electionFailedToLoad: boolean;
   currentElectionFile = `/assets/data/single_candidate_contest.xml`;
   currentContest = 1;
 
@@ -129,12 +130,17 @@ export class HomePage implements OnInit {
    */
   private fetchAndLoadElection(electionFile: string) {
     this.electionIsLoaded = false;
+    this.electionFailedToLoad = false;
     this.electionFileFetcherService
       .fetchElection(electionFile)
       .then((electionJsonFileContents) => this.electionModelConstructorService.constructElectionModel(electionJsonFileContents))
       .then((election) => {
         this.election = election;
         this.electionIsLoaded = true;
+      })
+      .catch((error) => {
+        this.electionFailedToLoad = true;
+        throw error;
       });
   }
 }
